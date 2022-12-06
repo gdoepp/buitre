@@ -119,6 +119,5 @@
         }
       }
     }
-  },
-  "defaultProject": "jwt-demo"
+  }
 }

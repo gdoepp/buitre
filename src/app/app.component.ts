@@ -1,6 +1,6 @@
 import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 import { TokenResponse } from './model/tokenResponse';
 import { TokenRequest } from './model/tokenRequest';
 import { AppClaim } from './model/appClaim';
@@ -40,7 +40,7 @@ export class AppComponent  implements OnInit {
   public privkeys: string[];
   public pubkeys: string[];
 
-  constructor(protected tokenService: TokenService,  protected encryptService: EncryptService, private formBuilder: FormBuilder) {
+  constructor(protected tokenService: TokenService,  protected encryptService: EncryptService, private formBuilder: UntypedFormBuilder) {
     this.username = '';
     this.pubkey = '';
     this.privkey = '';
