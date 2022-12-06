@@ -28,6 +28,9 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/@aposin/ng-aquila/css/normalize.css",
+              "node_modules/@aposin/ng-aquila/themes/expert.css",
+              "node_modules/@aposin/ng-aquila/css/utilities.css",
               "src/styles.css"
             ],
             "scripts": []

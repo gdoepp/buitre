@@ -1,0 +1,29 @@
+input, textarea {
+    border: 1px dotted #AAAAAA;
+  }
+  
+
+  button {
+    margin: 0 4px 16px;
+  }
+
+  .tab__content {
+    padding-top: 32px;
+  }
+
+  .page {
+    margin: 10px;
+  }
+
+  .horizontal-buttons {
+    display: flex;
+    flex-direction: row;
+  }
+
+  label, th, td {
+    font-size: 1.5em;    
+  }
+
+  .dropdown {
+    width: 40m;
+  }
