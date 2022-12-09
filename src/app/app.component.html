@@ -16,27 +16,39 @@
 
           <nx-radio-group name="keyTypeGroup" [(ngModel)]="keyusage">
             <nx-label class="nx-margin-bottom-m">Key is</nx-label>
-            <div class="horizontal-buttons">
-              <nx-radio nxValue="bytes" class="nx-margin-bottom-m">private key as bytes (min 32)</nx-radio>&nbsp;
-              <nx-radio nxValue="name" class="nx-margin-left-s nx-margin-bottom-m">name in keystore</nx-radio>
-            </div>
+              <div class="horizontal-buttons">
+                <nx-radio nxValue="bytes" name='privbytes' class="nx-margin-bottom-m">(private) key as bytes&nbsp; </nx-radio>&nbsp;
+                <nx-radio nxValue="name" name='privname' class="nx-margin-left-s nx-margin-bottom-m">name of key in keystore</nx-radio>
+              </div>
           </nx-radio-group>
           <br>
+
 
           <div nxRow>
             <div nxCol="1">
               <nx-label>Key: </nx-label>
             </div>
-            <div nxCol="9" *ngIf="keyusage == 'bytes'" > <input type="text" nxInput size=64 [(ngModel)]="privkey" name='privkey' /></div>
-            <div nxCol="4" *ngIf="keyusage == 'name'">
-            <nx-formfield nxLabel="private keys" >
-              <nx-dropdown [(ngModel)]="privkey" name='selkey'>
-                <nx-dropdown-item *ngFor="let item of privkeys" [nxValue]="item"></nx-dropdown-item>
+          <div nxCol="7" *ngIf="keyusage == 'bytes'">
+            <nx-formfield nxLabel="enter bytes">
+              <input nxInput type="text" size=64 [(ngModel)]="privkey" name='privkey' />
+              <nx-dropdown name='ddprivf' [(ngModel)]="keyform" >
+                <nx-dropdown-item name="'ddprivf_'+j" *ngFor="let item of keyforms; let j=index;" [nxValue]="item" ></nx-dropdown-item>
+              </nx-dropdown>
+            </nx-formfield>
+            <nx-formfield nxLabel="algorithm" width=20>
+              <nx-dropdown name='ddpriva' nxInput [(ngModel)]="keyalg">
+                <nx-dropdown-item name="'ddpriva_'+j" *ngFor="let item of signers; let j=index;" [nxValue]="item.name">{{item.description}}</nx-dropdown-item>
               </nx-dropdown>
             </nx-formfield>
           </div>
-
+          <div nxCol="4" *ngIf="keyusage == 'name'">
+            <nx-formfield nxLabel="select key name">
+              <nx-dropdown [(ngModel)]="pubkey" name='selkey'>
+                <nx-dropdown-item *ngFor="let item of pubkeys" name="'selkey_'+item" [nxValue]="item"></nx-dropdown-item>
+              </nx-dropdown>
+            </nx-formfield>
           </div>
+        </div>
 
           <br>
           <br>
@@ -49,23 +61,23 @@
             </tr>
             <tr nxTableRow>
               <td nxTableCell>Subject </td>
-              <td nxTableCell><input type="text" [(ngModel)]="req.subject" name="cl1" /></td>
+              <td nxTableCell><input nxInput type="text" [(ngModel)]="req.subject" name="cl1" /></td>
             </tr>
             <tr nxTableRow>
               <td nxTableCell>Audience </td>
-              <td nxTableCell><input type="text" [(ngModel)]="req.audience" name="cl2" /></td>
+              <td nxTableCell><input nxInput type="text" [(ngModel)]="req.audience" name="cl2" /></td>
             </tr>
             <tr nxTableRow>
               <td nxTableCell>Issuer</td>
-              <td nxTableCell><input type="text" [(ngModel)]="req.issuer" name="cl3" /></td>
+              <td nxTableCell><input nxInput type="text" [(ngModel)]="req.issuer" name="cl3" /></td>
             </tr>
             <tr nxTableRow>
               <td nxTableCell>NotBefore </td>
-              <td nxTableCell><input type="text" [(ngModel)]="req.notBefore" name="cl4" /></td>
+              <td nxTableCell><input nxInput type="text" [(ngModel)]="req.notBefore" name="cl4" /></td>
             </tr>
             <tr nxTableRow>
               <td nxTableCell>Expiration </td>
-              <td nxTableCell><input type="text" [(ngModel)]="req.expiration" name="cl5" /></td>
+              <td nxTableCell><input nxInput type="text" [(ngModel)]="req.expiration" name="cl5" /></td>
             </tr>
 
             <tr nxTableRow *ngFor="let cl of myClaims">
@@ -122,10 +134,8 @@
         <nx-radio-group name="keyTypeGroup" [(ngModel)]="keyusage">
           <nx-label class="nx-margin-bottom-m">Key is</nx-label>
           <div class="horizontal-buttons">
-            <nx-radio nxValue="bytes" class="nx-margin-bottom-m">public key as bytes (chars, min 32)</nx-radio>&nbsp;
-            <nx-radio nxValue="bytesX" class="nx-margin-bottom-m">public key as bytes (hex)</nx-radio>&nbsp;
-            <nx-radio nxValue="bytes64" class="nx-margin-bottom-m">public key as bytes (base64)</nx-radio>&nbsp;
-            <nx-radio nxValue="name" class="nx-margin-left-s nx-margin-bottom-m">name in keystore</nx-radio>
+            <nx-radio nxValue="bytes" name='pubbytes' class="nx-margin-bottom-m">(public) key as bytes&nbsp; </nx-radio>&nbsp;
+            <nx-radio nxValue="name" name='pubname' class="nx-margin-left-s nx-margin-bottom-m">name of key in keystore</nx-radio>
           </div>
         </nx-radio-group>
         <br>
@@ -133,11 +143,21 @@
           <div nxCol="1">
             <nx-label>Key: </nx-label> 
           </div>
-          <div nxCol="9" *ngIf="keyusage != 'name'">
-            <input type="text" nxInput size=64 [(ngModel)]="pubkey" name='pubkey' />
+          <div nxCol="7" *ngIf="keyusage == 'bytes'">
+            <nx-formfield nxLabel="enter bytes">
+              <input nxInput type="text" size=64 [(ngModel)]="pubkey" name='pubkey' />
+              <nx-dropdown [(ngModel)]="keyform" >
+                <nx-dropdown-item name='ddpubf' *ngFor="let item of keyforms" [nxValue]="item" ></nx-dropdown-item>
+              </nx-dropdown>
+            </nx-formfield>
+            <nx-formfield nxLabel="algorithm" width=20>
+              <nx-dropdown name='ddpubs' nxInput [(ngModel)]="keyalg">
+                <nx-dropdown-item *ngFor="let item of signers; let j=index;" name="'ddpubs_'+j" [nxValue]="item.name">{{item.description}}</nx-dropdown-item>
+              </nx-dropdown>
+            </nx-formfield>
           </div>
           <div nxCol="4" *ngIf="keyusage == 'name'">
-            <nx-formfield nxLabel="public keys">
+            <nx-formfield nxLabel="select key name">
               <nx-dropdown [(ngModel)]="pubkey" name='selkey'>
                 <nx-dropdown-item *ngFor="let item of pubkeys" [nxValue]="item"></nx-dropdown-item>
               </nx-dropdown>

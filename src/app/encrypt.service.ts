@@ -1,4 +1,3 @@
-import { toBase64String } from '@angular/compiler/src/output/source_map';
 import { Injectable } from '@angular/core';
 import * as CryptoJS from 'crypto-js';
 

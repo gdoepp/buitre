@@ -10,18 +10,8 @@
  * Do not edit the class manually.
  */
 
-import { RequestedClaim } from './requestedClaim';
-
-
-export interface TokenRequest { 
-    subject?: string;
-    tokenName?: string;
-    audience?: string;
-    notBefore?: Date;
-    expiration?: Date;
-    issuer?: string;
-    claims?: Array<RequestedClaim>;
-    key?: string;
-    alg?: string;
-
+ export interface SignAlg { 
+    name?: string;
+    minLen?: number;
+    description?: string;
 }

@@ -2,11 +2,11 @@ import { Inject, Injectable, Optional }                      from '@angular/core
 import { HttpClient, HttpHeaders, HttpParams,
          HttpResponse, HttpEvent }                           from '@angular/common/http';
 
-import { Observable }                                        from 'rxjs/Observable';
+import { Observable }                                        from 'rxjs';
 
 import { CustomHttpUrlEncodingCodec }                        from './encoder';
 import { TokenRequest } from './model/tokenRequest';
-import { TokenResponse } from './model/tokenResponse';
+import { SignAlg } from './model/SignAlg';
 import { BASE_PATH, COLLECTION_FORMATS }                     from './variables';
 import { Configuration }                                     from './configuration';
 
@@ -17,7 +17,8 @@ import { Configuration }                                     from './configurati
 export class TokenService {
 
 
-  protected basePath = 'https://www.gdoeppert.de/cryptool/';
+  protected basePath = 'https://www.gdoeppert.de/cryptool';
+ // protected basePath = 'http://localhost:28080/cryptool';
   public defaultHeaders = new HttpHeaders();
   public configuration = new Configuration();
 
@@ -207,7 +208,42 @@ export class TokenService {
       );
   }
 
-
+  /**
+   * 
+   * 
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+   public listAlgs(observe?: 'body', reportProgress?: boolean): Observable<Array<SignAlg>>;
+   public listAlgs(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<SignAlg>>>;
+   public listAlgs(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<SignAlg>>>;
+   public listAlgs(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+ 
+       let headers = this.defaultHeaders;
+ 
+       // to determine the Accept header
+       let httpHeaderAccepts: string[] = [
+           '*/*'
+       ];
+       const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+       if (httpHeaderAcceptSelected != undefined) {
+           headers = headers.set('Accept', httpHeaderAcceptSelected);
+       }
+ 
+       // to determine the Content-Type header
+       const consumes: string[] = [
+       ];
+ 
+       return this.httpClient.request<Array<SignAlg>>('get',`${this.basePath}/token/listalgs`,
+           {
+               withCredentials: this.configuration.withCredentials,
+               headers: headers,
+               observe: observe,
+               reportProgress: reportProgress
+           }
+       );
+   }
+ 
 
     /**
      * 
@@ -310,14 +346,14 @@ export class TokenService {
      * 
      * @param jwt 
      * @param key 
-     * @param fromKeystore 
+     * @param keyalg 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-  public checkJwt(jwt: string, key: string, fromKeystore: boolean, observe?: 'body', reportProgress?: boolean): Observable<string>;
-  public checkJwt(jwt: string, key: string, fromKeystore: boolean, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<string>>;
-  public checkJwt(jwt: string, key: string, fromKeystore: boolean, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<string>>;
-  public checkJwt(jwt: string, key: string, fromKeystore: boolean, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+  public checkJwt(jwt: string, key: string, keyalg: string, observe?: 'body', reportProgress?: boolean): Observable<string>;
+  public checkJwt(jwt: string, key: string, keyalg: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<string>>;
+  public checkJwt(jwt: string, key: string, keyalg: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<string>>;
+  public checkJwt(jwt: string, key: string, keyalg: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
       if (jwt === null || jwt === undefined) {
           throw new Error('Required parameter jwt was null or undefined when calling checkJwt.');
@@ -327,8 +363,8 @@ export class TokenService {
           throw new Error('Required parameter key was null or undefined when calling checkJwt.');
       }
 
-      if (fromKeystore === null || fromKeystore === undefined) {
-          throw new Error('Required parameter fromKeystore was null or undefined when calling checkJwt.');
+      if (keyalg === null || keyalg === undefined) {
+          throw new Error('Required parameter keyalg was null or undefined when calling checkJwt.');
       }
 
       let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
@@ -338,8 +374,8 @@ export class TokenService {
       if (key !== undefined && key !== null) {
           queryParameters = queryParameters.set('key', <any>key);
       }
-      if (fromKeystore !== undefined && fromKeystore !== null) {
-          queryParameters = queryParameters.set('fromKeystore', <any>fromKeystore);
+      if (keyalg !== undefined && keyalg !== null) {
+          queryParameters = queryParameters.set('keyalg', <any>keyalg);
       }
 
       let headers = this.defaultHeaders;

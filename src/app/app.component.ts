@@ -1,13 +1,11 @@
 import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
-import { UntypedFormBuilder } from '@angular/forms';
-import { TokenResponse } from './model/tokenResponse';
+import { SignAlg } from './model/SignAlg';
 import { TokenRequest } from './model/tokenRequest';
 import { AppClaim } from './model/appClaim';
 import { TokenService } from './token.service';
 import { EncryptService } from './encrypt.service';
 import { RequestedClaim } from './model/requestedClaim';
-import { enc } from 'crypto-js';
 
 @Component({
   selector: 'app-root',
@@ -30,17 +28,21 @@ export class AppComponent  implements OnInit {
   public currentIndex: number;
   public req: TokenRequest;
   public clname: string;
+  public keyalg: string;
   public keyusage: string;
+  public keyform: string;
+  public keyforms: string[];
   public encodings: string[];
   public encryptings: string[];
   public hashings: string[]; 
+  public signers: SignAlg[] = []; 
   public srcEncoding: string;
   public destEncoding: string;
   public algorithm: string;
   public privkeys: string[];
   public pubkeys: string[];
 
-  constructor(protected tokenService: TokenService,  protected encryptService: EncryptService, private formBuilder: UntypedFormBuilder) {
+  constructor(protected tokenService: TokenService,  protected encryptService: EncryptService) {
     this.username = '';
     this.pubkey = '';
     this.privkey = '';
@@ -49,12 +51,15 @@ export class AppComponent  implements OnInit {
     this.claim = '';
     this.myClaims = [];
     this.key = '';
+    this.keyalg = 'HS256';
+    this.keyusage = 'name';
+    this.keyform = 'base64';
+    this.keyforms = ['chars', 'hex', 'base64'];
     this.inptext = '';
     this.outtext = '';
     this.currentIndex = 0;
     this.req = {};
     this.clname = '';
-    this.keyusage = 'bytes';
     this.srcEncoding = 'Utf8';
     this.destEncoding = 'Utf8';
     this.algorithm = 'Plain';
@@ -63,6 +68,8 @@ export class AppComponent  implements OnInit {
     this.hashings = encryptService.listHash();
     this.privkeys = [];
     this.pubkeys = [];
+    this.tokenService.listAlgs().subscribe( (ret: SignAlg[]) => { this.signers = ret; } );
+    //[ 'HmacSHA256', 'HmacSHA384', 'HmacSHA512', 'SHA256withRSA', 'SHA384withRSA', 'SHA512withRSA', 'SHA256withECDSA', 'SHA384withECDSA', 'SHA512withECDSA'];
   }
 
   ngOnInit() {
@@ -70,15 +77,14 @@ export class AppComponent  implements OnInit {
     this.myClaims = [];
 
     this.tokenService.listPrivkeys().subscribe(
-      (ret) => { this.privkeys = ret; this.pubkeys = this.pubkeys.concat(ret); }
+      (ret: string[]) => { this.privkeys = ret; this.pubkeys = this.pubkeys.concat(ret); }
     );
 
     this.tokenService.listPubkeys().subscribe(
-      (ret) => { this.pubkeys = this.pubkeys.concat(ret); }
+      (ret: string[]) => { this.pubkeys = this.pubkeys.concat(ret); }
     );
 
   }
-
 
   addClaim() {
     let claim = { name: this.clname, value: '' };
@@ -87,10 +93,22 @@ export class AppComponent  implements OnInit {
 
   create_token() {
 
-  let tokenReq: TokenRequest = this.req;
-  tokenReq.key = this.privkey;
-  tokenReq.fromKeystore = this.keyusage == 'name';
+    let tokenReq: TokenRequest = this.req;
 
+    if (this.keyform == 'name') {
+      tokenReq.alg = 'keystore';
+      tokenReq.key = this.privkey;
+    } else {
+      tokenReq.alg = this.keyalg;
+      if (this.keyform == 'hex') {
+        tokenReq.key = btoa(this.hex2a(this.privkey));
+      } else if (this.keyform == 'base64') {
+        tokenReq.key = this.privkey;
+      } else {
+        tokenReq.key = btoa(this.privkey);
+      }
+    } 
+  
   let claims : RequestedClaim[] = [];
   for (let cl of this.myClaims) {
 
@@ -105,24 +123,33 @@ export class AppComponent  implements OnInit {
   }
   this.tokenstring = '';
   this.tokenService.create(tokenReq).subscribe( 
-    (ret) => { this.tokenstring = ret; }, 
-    err => { console.log('error: ' + err.message); this.tokenstring = err.error;},
+    (ret: string) => { this.tokenstring = ret; }, 
+    (err: any) => { console.log('error: ' + err.message); this.tokenstring = err.error;},
     () => {   }
     );
 
 }
 
 check_token() {
-  if (this.keyusage != 'name') {
-    if (this.keyusage == 'bytesX') {
-      this.pubkey = this.hex2a(this.pubkey);
-    } else if (this.keyusage == 'bytes64') {
-      this.pubkey = atob(this.pubkey);
+
+  var alg = '';
+  var key = '';
+  if (this.keyform == 'name') {
+    alg = 'keystore';
+  } else {
+    alg = this.keyalg;
+    if (this.keyform == 'hex') {
+      key = btoa(this.hex2a(this.pubkey));
+    } else if (this.keyform == 'base64') {
+      key = this.pubkey;
+    } else {
+      key = btoa(this.pubkey);
     }
-  }
-  this.tokenService.checkJwt(this.tokenstring, this.pubkey, this.keyusage == 'name', 'response').subscribe(
-    (ret) => { this.tokencontent = ret.status == 200 ? ret.body : ret.statusText; },
-    err => { console.log('error: ' + err.message); this.tokencontent = err.error; },
+  } 
+
+  this.tokenService.checkJwt(this.tokenstring, key, alg, 'response').subscribe(
+    (ret: any) => { this.tokencontent = ret.status == 200 ? ret.body : ret.statusText; },
+    (err: any) => { console.log('error: ' + err.message); this.tokencontent = err.error; },
     () => { }
   );
 }
