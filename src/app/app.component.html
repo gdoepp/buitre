@@ -28,11 +28,11 @@
             <div nxCol="1">
               <nx-label>Key: </nx-label>
             </div>
-          <div nxCol="7" *ngIf="keyusage == 'bytes'">
+          <div nxCol="8" *ngIf="keyusage == 'bytes'">
             <nx-formfield nxLabel="enter bytes">
               <input nxInput type="text" size=64 [(ngModel)]="privkey" name='privkey' />
               <nx-dropdown name='ddprivf' [(ngModel)]="keyform" >
-                <nx-dropdown-item name="'ddprivf_'+j" *ngFor="let item of keyforms; let j=index;" [nxValue]="item" ></nx-dropdown-item>
+                <nx-dropdown-item name="'ddprivf_'+j" *ngFor="let item of keyforms; let j=index;" [nxValue]="item.name" >{{item.description}}</nx-dropdown-item>
               </nx-dropdown>
             </nx-formfield>
             <nx-formfield nxLabel="algorithm" width=20>
@@ -43,8 +43,8 @@
           </div>
           <div nxCol="4" *ngIf="keyusage == 'name'">
             <nx-formfield nxLabel="select key name">
-              <nx-dropdown [(ngModel)]="pubkey" name='selkey'>
-                <nx-dropdown-item *ngFor="let item of pubkeys" name="'selkey_'+item" [nxValue]="item"></nx-dropdown-item>
+              <nx-dropdown [(ngModel)]="privkey" name='selkey'>
+                <nx-dropdown-item *ngFor="let item of privkeys" name="'selkey_'+item" [nxValue]="item"></nx-dropdown-item>
               </nx-dropdown>
             </nx-formfield>
           </div>
@@ -143,11 +143,11 @@
           <div nxCol="1">
             <nx-label>Key: </nx-label> 
           </div>
-          <div nxCol="7" *ngIf="keyusage == 'bytes'">
+          <div nxCol="8" *ngIf="keyusage == 'bytes'">
             <nx-formfield nxLabel="enter bytes">
               <input nxInput type="text" size=64 [(ngModel)]="pubkey" name='pubkey' />
               <nx-dropdown [(ngModel)]="keyform" >
-                <nx-dropdown-item name='ddpubf' *ngFor="let item of keyforms" [nxValue]="item" ></nx-dropdown-item>
+                <nx-dropdown-item name='ddpubf' *ngFor="let item of keyforms" [nxValue]="item.name" >{{item.description}}</nx-dropdown-item>
               </nx-dropdown>
             </nx-formfield>
             <nx-formfield nxLabel="algorithm" width=20>
@@ -172,9 +172,11 @@
         <div nxRow>
           <div nxCol="1">
             <nx-label>Result: </nx-label>
+            <nx-label [class]="valresult">{{valresult}}</nx-label>
           </div>
-          <div nxCol="9">
-            <textarea nxInput [ngModel]="tokencontent" rows=4 cols=80 name='tokencontent'></textarea>
+        
+          <div nxCol="7">
+            <textarea nxInput [ngModel]="reason" rows=4 cols=80 name='reason'></textarea>
           </div>
         </div>
       </div>

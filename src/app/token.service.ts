@@ -17,8 +17,8 @@ import { Configuration }                                     from './configurati
 export class TokenService {
 
 
-  protected basePath = 'https://www.gdoeppert.de/cryptool';
- // protected basePath = 'http://localhost:28080/cryptool';
+  //protected basePath = 'https://www.gdoeppert.de/kryptutil';
+  protected basePath = 'http://localhost:28080/kryptutil';
   public defaultHeaders = new HttpHeaders();
   public configuration = new Configuration();
 
@@ -399,8 +399,8 @@ export class TokenService {
               withCredentials: this.configuration.withCredentials,
               headers: headers,
               observe: observe,
-              reportProgress: reportProgress,
-              responseType: 'text'
+              reportProgress: reportProgress
+              //responseType: 'text'
           }
       );
   }

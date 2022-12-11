@@ -27,3 +27,22 @@ input, textarea {
   .dropdown {
     width: 40m;
   }
+
+  .valid {
+    color: green;    
+  }
+
+  .invalid {
+    color: red;    
+  }
+
+  .uncertain {
+    color: orange;    
+  }
+  .unknown {
+    color:blue;    
+  }
+  .error {
+    color: black;    
+    background-color: red;
+  }

@@ -19,7 +19,8 @@ export class AppComponent  implements OnInit {
   public privkey: string;
   public pubkey: string;
   public tokenstring: string;
-  public tokencontent: string|null;
+  public valresult: string;
+  public reason: string|null;
   public claim: string;
   public myClaims: AppClaim[];
   public key: string;
@@ -31,7 +32,7 @@ export class AppComponent  implements OnInit {
   public keyalg: string;
   public keyusage: string;
   public keyform: string;
-  public keyforms: string[];
+  public keyforms: any[];
   public encodings: string[];
   public encryptings: string[];
   public hashings: string[]; 
@@ -47,14 +48,15 @@ export class AppComponent  implements OnInit {
     this.pubkey = '';
     this.privkey = '';
     this.tokenstring = '';
-    this.tokencontent = '';
+    this.reason = '';
+    this.valresult = "unknown";
     this.claim = '';
     this.myClaims = [];
     this.key = '';
     this.keyalg = 'HS256';
     this.keyusage = 'name';
     this.keyform = 'base64';
-    this.keyforms = ['chars', 'hex', 'base64'];
+    this.keyforms = [{name:'chars', description: 'plain chars'}, {name:'hex',description:'hex big integer'}, {name:'base64', description:'base64 or pkcs8 pem'}];
     this.inptext = '';
     this.outtext = '';
     this.currentIndex = 0;
@@ -95,7 +97,7 @@ export class AppComponent  implements OnInit {
 
     let tokenReq: TokenRequest = this.req;
 
-    if (this.keyform == 'name') {
+    if (this.keyusage == 'name') {
       tokenReq.alg = 'keystore';
       tokenReq.key = this.privkey;
     } else {
@@ -134,8 +136,9 @@ check_token() {
 
   var alg = '';
   var key = '';
-  if (this.keyform == 'name') {
+  if (this.keyusage == 'name') {
     alg = 'keystore';
+    key = this.pubkey;
   } else {
     alg = this.keyalg;
     if (this.keyform == 'hex') {
@@ -148,8 +151,12 @@ check_token() {
   } 
 
   this.tokenService.checkJwt(this.tokenstring, key, alg, 'response').subscribe(
-    (ret: any) => { this.tokencontent = ret.status == 200 ? ret.body : ret.statusText; },
-    (err: any) => { console.log('error: ' + err.message); this.tokencontent = err.error; },
+    (ret: any) => { 
+      console.log(ret.body.reason);
+      this.valresult = ret.body.result;
+      this.reason = ret.body.reason; 
+    },
+    (err: any) => { console.log('error: ' + JSON.stringify(err)); this.valresult = err.error.result; this.reason = err.error.reason; },
     () => { }
   );
 }
