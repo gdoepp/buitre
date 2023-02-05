@@ -73,11 +73,11 @@
             </tr>
             <tr nxTableRow>
               <td nxTableCell>NotBefore </td>
-              <td nxTableCell><input nxInput type="text" [(ngModel)]="req.notBefore" name="cl4" /></td>
+              <td nxTableCell><input nxInput type="date" [(ngModel)]="req.notBefore" name="cl4" /></td>
             </tr>
             <tr nxTableRow>
               <td nxTableCell>Expiration </td>
-              <td nxTableCell><input nxInput type="text" [(ngModel)]="req.expiration" name="cl5" /></td>
+              <td nxTableCell><input nxInput type="date" [(ngModel)]="req.expiration" name="cl5" /></td>
             </tr>
 
             <tr nxTableRow *ngFor="let cl of myClaims">

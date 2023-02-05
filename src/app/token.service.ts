@@ -17,8 +17,8 @@ import { Configuration }                                     from './configurati
 export class TokenService {
 
 
-  //protected basePath = 'https://www.gdoeppert.de/kryptutil';
-  protected basePath = 'http://localhost:28080/kryptutil';
+  protected basePath = 'https://www.gdoeppert.de/kryptutil';
+  //protected basePath = 'http://localhost:28080/kryptutil';
   public defaultHeaders = new HttpHeaders();
   public configuration = new Configuration();
 
