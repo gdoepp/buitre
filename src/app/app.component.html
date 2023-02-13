@@ -230,10 +230,16 @@
             </div>
           </div>
           <br>
-          <nx-label>{{encryptings.indexOf(algorithm) == -1 && !algorithm.startsWith('Hmac') ? 'No password
-            needed':'Password: '}}
-          </nx-label><input *ngIf="encryptings.indexOf(algorithm) > -1 || algorithm.startsWith('Hmac')" type="text"
-            nxInput size=64 [(ngModel)]="key" name='key' />
+          <div nxRow>
+          <nx-formfield nxLabel="{{encryptings.indexOf(algorithm) == -1 && !algorithm.startsWith('Hmac') ? 'No password
+            needed':'Password/Key: '}}" *ngIf="encryptings.indexOf(algorithm) > -1 || algorithm.startsWith('Hmac')" >
+              <input type="text" nxInput size=100 [(ngModel)]="key" name='key' *ngIf="encryptings.indexOf(algorithm) > -1 || algorithm.startsWith('Hmac')" />
+                <nx-dropdown nxInput name='ddenckeyf' [(ngModel)]="keyform" *ngIf="encryptings.indexOf(algorithm) > -1 || algorithm.startsWith('Hmac')">
+                  <nx-dropdown-item name="'ddenckeyf_'+j" *ngFor="let item of keyforms; let j=index;" [nxValue]="item.name" >{{item.description}}</nx-dropdown-item>
+                </nx-dropdown>
+          </nx-formfield>
+        </div>
+
           <br>
           <br>
           <button *ngIf="encryptings.indexOf(algorithm) >= 0" type="button" nxButton="primary medium" (click)="encode()"

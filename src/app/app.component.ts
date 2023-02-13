@@ -102,13 +102,7 @@ export class AppComponent  implements OnInit {
       tokenReq.key = this.privkey;
     } else {
       tokenReq.alg = this.keyalg;
-      if (this.keyform == 'hex') {
-        tokenReq.key = btoa(this.hex2a(this.privkey));
-      } else if (this.keyform == 'base64') {
-        tokenReq.key = this.privkey;
-      } else {
-        tokenReq.key = btoa(this.privkey);
-      }
+      tokenReq.key = this.decodeKey64(this.privkey);
     } 
   
   let claims : RequestedClaim[] = [];
@@ -141,13 +135,7 @@ check_token() {
     key = this.pubkey;
   } else {
     alg = this.keyalg;
-    if (this.keyform == 'hex') {
-      key = btoa(this.hex2a(this.pubkey));
-    } else if (this.keyform == 'base64') {
-      key = this.pubkey;
-    } else {
-      key = btoa(this.pubkey);
-    }
+    key = this.decodeKey64(this.pubkey);
   } 
 
   this.tokenService.checkJwt(this.tokenstring, key, alg, 'response').subscribe(
@@ -161,19 +149,41 @@ check_token() {
   );
 }
 
+private decodeKey64(key: string) {
+    if (this.keyform == 'hex') {
+      key = btoa(this.hex2a(key));
+    } else if (this.keyform == 'base64') {
+      key = key;
+    } else {
+      key = btoa(key);
+    }
+    return key;
+}
+
+private decodeKey(key: string) {
+  if (this.keyform == 'hex') {
+    key = this.hex2a(key);
+  } else if (this.keyform == 'base64') {
+    key = atob(key);
+  } else {
+    key = key;
+  }
+  return key;
+}
+
 decode() {
 
-this.outtext = this.encryptService.decrypt(this.inptext, this.key, this.algorithm, this.srcEncoding, this.destEncoding);
-return;
+  this.outtext = this.encryptService.decrypt(this.inptext, this.decodeKey(this.key), this.algorithm, this.srcEncoding, this.destEncoding);
+  return;
 
 //    this.tokenService.decode64(val[1]).subscribe( (ret) => { this.outtext = JSON.stringify(ret); }, err => { console.log('error: ' + err.message)});
 
 }
 encode() {
   if  (this.hashings.indexOf(this.algorithm) >= 0) {
-    this.outtext = this.encryptService.hash(this.inptext, this.key, this.algorithm, this.srcEncoding, this.destEncoding);
+    this.outtext = this.encryptService.hash(this.inptext, this.decodeKey(this.key), this.algorithm, this.srcEncoding, this.destEncoding);
   } else {
-    this.outtext = this.encryptService.encrypt(this.inptext, this.key, this.algorithm, this.srcEncoding, this.destEncoding);
+    this.outtext = this.encryptService.encrypt(this.inptext, this.decodeKey(this.key), this.algorithm, this.srcEncoding, this.destEncoding);
   } 
 
 //  this.tokenService.encode64(this.inptext).subscribe( (ret) => { this.outtext = ret;  }, err => { console.log('error: ' + err.message)});
