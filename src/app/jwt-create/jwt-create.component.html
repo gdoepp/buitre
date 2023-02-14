@@ -1,0 +1,106 @@
+<form>
+    <div nxLayout="grid maxwidth">
+
+      <nx-radio-group name="keyTypeGroup" [(ngModel)]="keyusage">
+        <nx-label class="nx-margin-bottom-m">Key is</nx-label>
+          <div class="horizontal-buttons">
+            <nx-radio nxValue="bytes" name='privbytes' class="nx-margin-bottom-m">(private) key as bytes&nbsp; </nx-radio>&nbsp;
+            <nx-radio nxValue="name" name='privname' class="nx-margin-left-s nx-margin-bottom-m">name of key in keystore</nx-radio>
+          </div>
+      </nx-radio-group>
+      <br>
+
+
+      <div nxRow>
+        <div nxCol="1">
+          <nx-label>Key: </nx-label>
+        </div>
+      <div nxCol="8" *ngIf="keyusage == 'bytes'">
+        <nx-formfield nxLabel="enter bytes">
+          <input nxInput type="text" size=64 [(ngModel)]="privkey" name='privkey' />
+          <nx-dropdown name='ddprivf' [(ngModel)]="keyform" >
+            <nx-dropdown-item name="'ddprivf_'+j" *ngFor="let item of keyforms; let j=index;" [nxValue]="item.name" >{{item.description}}</nx-dropdown-item>
+          </nx-dropdown>
+        </nx-formfield>
+        <nx-formfield nxLabel="algorithm" width=20>
+          <nx-dropdown name='ddpriva' nxInput [(ngModel)]="keyalg">
+            <nx-dropdown-item name="'ddpriva_'+j" *ngFor="let item of signers; let j=index;" [nxValue]="item.name">{{item.description}}</nx-dropdown-item>
+          </nx-dropdown>
+        </nx-formfield>
+      </div>
+      <div nxCol="4" *ngIf="keyusage == 'name'">
+        <nx-formfield nxLabel="select key name">
+          <nx-dropdown [(ngModel)]="privkey" name='selkey'>
+            <nx-dropdown-item *ngFor="let item of privkeys" name="'selkey_'+item" [nxValue]="item"></nx-dropdown-item>
+          </nx-dropdown>
+        </nx-formfield>
+      </div>
+    </div>
+
+      <br>
+      <br>
+      <nx-label>Claims to include:</nx-label>
+      <br>
+      <table pad="3">
+        <tr>
+          <th nxTableHeader style="min-width: 10em;">Name </th>
+          <th nxTableHeader>Value</th>
+        </tr>
+        <tr nxTableRow>
+          <td nxTableCell>Subject </td>
+          <td nxTableCell><input nxInput type="text" [(ngModel)]="req.subject" name="cl1" /></td>
+        </tr>
+        <tr nxTableRow>
+          <td nxTableCell>Audience </td>
+          <td nxTableCell><input nxInput type="text" [(ngModel)]="req.audience" name="cl2" /></td>
+        </tr>
+        <tr nxTableRow>
+          <td nxTableCell>Issuer</td>
+          <td nxTableCell><input nxInput type="text" [(ngModel)]="req.issuer" name="cl3" /></td>
+        </tr>
+        <tr nxTableRow>
+          <td nxTableCell>NotBefore </td>
+          <td nxTableCell><input nxInput type="date" [(ngModel)]="req.notBefore" name="cl4" /></td>
+        </tr>
+        <tr nxTableRow>
+          <td nxTableCell>Expiration </td>
+          <td nxTableCell><input nxInput type="date" [(ngModel)]="req.expiration" name="cl5" /></td>
+        </tr>
+
+        <tr nxTableRow *ngFor="let cl of myClaims">
+          <td nxTableCell>{{cl.name}}</td>
+          <td nxTableCell><input nxInput type="text" [(ngModel)]="cl.value" name="{{'clx'+cl.name}}" /></td>
+        </tr>
+
+      </table>
+      <br>
+      <div nxRow>
+        <div nxCol="2">
+          <label>Custom Claim: </label>
+        </div>
+        <div nxCol="2">
+          <input type="text" size="20em" nxInput [(ngModel)]="clname" name="cln" /> 
+        </div>
+        <div nxCol="1">
+          <button
+               nxButton="secondary" type="button" (click)="addClaim()">add claim</button>
+        </div>
+      </div>
+      <br>
+      <button nxButton="secondary" type="button" (click)="create_token()">create token with claims</button>
+
+      <br>
+      <hr>
+      <br>
+      <div nxRow>
+        <div nxCol="1">
+          <label>Token: </label>
+        </div>
+        <div nxCol="9"><textarea nxInput [(ngModel)]="tokenstring" name='tokenstring' rows=4 cols=80></textarea>
+        </div>
+      </div>
+      <br>
+    </div>
+
+  </form>
+

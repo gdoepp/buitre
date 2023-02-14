@@ -1,0 +1,88 @@
+import { Component, OnInit } from '@angular/core';
+import { SignAlg } from '../model/SignAlg';
+import { KryptBase } from '../KryptBase';
+import { TokenRequest } from '../model/tokenRequest';
+import { AppClaim } from '../model/appClaim';
+import { TokenService } from '../token.service';
+import { RequestedClaim } from '../model/requestedClaim';
+
+@Component({
+  selector: 'jwt-create',
+  templateUrl: './jwt-create.component.html',
+  styleUrls: ['./jwt-create.component.css']
+})
+export class JwtCreateComponent extends KryptBase implements OnInit {
+
+    public username: string;
+    public privkey: string;
+    public reason: string|null;
+    public claim: string;
+    public myClaims: AppClaim[];
+    public req: TokenRequest;
+    public clname: string;
+    public algorithm: string;
+    public privkeys: string[];
+  
+    constructor(protected tokenService: TokenService) {
+      super();
+      this.username = '';
+      this.privkey = '';
+      this.reason = '';
+      this.claim = '';
+      this.myClaims = [];
+      this.req = {};
+      this.clname = '';
+      this.algorithm = 'Plain';
+      this.privkeys = [];
+      this.tokenService.listAlgs().subscribe( (ret: SignAlg[]) => { this.signers = ret; } );
+    }
+  
+    ngOnInit() {
+      this.username = '';
+      this.myClaims = [];
+  
+      this.tokenService.listPrivkeys().subscribe(
+        (ret: string[]) => { this.privkeys = ret;  }
+      );
+    
+    }
+  
+    addClaim() {
+      let claim = { name: this.clname, value: '' };
+      this.myClaims.push(claim);
+    }
+  
+    create_token() {
+  
+      let tokenReq: TokenRequest = this.req;
+  
+      if (this.keyusage == 'name') {
+        tokenReq.alg = 'keystore';
+        tokenReq.key = this.privkey;
+      } else {
+        tokenReq.alg = this.keyalg;
+        tokenReq.key = super.decodeKey64(this.privkey);
+      } 
+    
+    let claims : RequestedClaim[] = [];
+    for (let cl of this.myClaims) {
+  
+      if (cl.name && cl.value && cl.value.length > 0) {
+        let clm : RequestedClaim = {};
+        clm.name = cl.name;
+        clm.value = cl.value;
+        claims.push(clm);
+      }
+      tokenReq.claims = claims;
+      
+    }
+    this.tokenstring = '';
+    this.tokenService.create(tokenReq).subscribe( 
+      (ret: string) => { this.tokenstring = ret; }, 
+      (err: any) => { console.log('error: ' + err.message); this.tokenstring = err.error;},
+      () => {   }
+      );
+  
+  }
+   
+}

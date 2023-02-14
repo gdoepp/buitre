@@ -11,11 +11,19 @@ import { NxTabsModule } from '@aposin/ng-aquila/tabs';
 import { NxRadioModule } from '@aposin/ng-aquila/radio-button'; 
 import { NxFormfieldModule } from '@aposin/ng-aquila/formfield';
 import { NxDropdownModule } from '@aposin/ng-aquila/dropdown'; 
-import { NxGridModule } from '@aposin/ng-aquila/grid'; 
+import { NxGridModule } from '@aposin/ng-aquila/grid';
+import { JwtCreateComponent } from './jwt-create/jwt-create.component';
+import { JwtCheckComponent } from './jwt-check/jwt-check.component';
+import { CodeSymComponent } from './code-sym/code-sym.component';
+import { CodeAsymComponent } from './code-asym/code-asym.component'; 
 
 @NgModule({
   declarations: [
     AppComponent,
+    JwtCreateComponent,
+    JwtCheckComponent,
+    CodeSymComponent,
+    CodeAsymComponent,
   ],
   imports: [
     BrowserModule,
