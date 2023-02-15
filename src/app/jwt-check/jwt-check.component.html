@@ -11,39 +11,7 @@
       </div>
     </div>
     <br>
-    <nx-radio-group name="keyTypeGroup" [(ngModel)]="keyusage">
-      <nx-label class="nx-margin-bottom-m">Key is</nx-label>
-      <div class="horizontal-buttons">
-        <nx-radio nxValue="bytes" name='pubbytes' class="nx-margin-bottom-m">(public) key as bytes&nbsp; </nx-radio>&nbsp;
-        <nx-radio nxValue="name" name='pubname' class="nx-margin-left-s nx-margin-bottom-m">name of key in keystore</nx-radio>
-      </div>
-    </nx-radio-group>
-    <br>
-    <div nxRow>
-      <div nxCol="1">
-        <nx-label>Key: </nx-label> 
-      </div>
-      <div nxCol="8" *ngIf="keyusage == 'bytes'">
-        <nx-formfield nxLabel="enter bytes">
-          <input nxInput type="text" size=64 [(ngModel)]="pubkey" name='pubkey' />
-          <nx-dropdown [(ngModel)]="keyform" >
-            <nx-dropdown-item name='ddpubf' *ngFor="let item of keyforms" [nxValue]="item.name" >{{item.description}}</nx-dropdown-item>
-          </nx-dropdown>
-        </nx-formfield>
-        <nx-formfield nxLabel="algorithm" width=20>
-          <nx-dropdown name='ddpubs' nxInput [(ngModel)]="keyalg">
-            <nx-dropdown-item *ngFor="let item of signers; let j=index;" name="'ddpubs_'+j" [nxValue]="item.name">{{item.description}}</nx-dropdown-item>
-          </nx-dropdown>
-        </nx-formfield>
-      </div>
-      <div nxCol="4" *ngIf="keyusage == 'name'">
-        <nx-formfield nxLabel="select key name">
-          <nx-dropdown [(ngModel)]="pubkey" name='selkey'>
-            <nx-dropdown-item *ngFor="let item of pubkeys" [nxValue]="item"></nx-dropdown-item>
-          </nx-dropdown>
-        </nx-formfield>
-      </div>
-    </div>
+    <asymkey [pkeys]="pubkeys" [signers]="signers" [(pkey)]="pubkey" [(keyusage)]="keyusage" [(keyform)]="keyform" [(keyalg)]="keyalg"> </asymkey>
     <br>
     <br>
     <button nxButton="primary small" type="button" (click)="check_token()">check token</button>

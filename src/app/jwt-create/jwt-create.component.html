@@ -1,41 +1,7 @@
 <form>
     <div nxLayout="grid maxwidth">
 
-      <nx-radio-group name="keyTypeGroup" [(ngModel)]="keyusage">
-        <nx-label class="nx-margin-bottom-m">Key is</nx-label>
-          <div class="horizontal-buttons">
-            <nx-radio nxValue="bytes" name='privbytes' class="nx-margin-bottom-m">(private) key as bytes&nbsp; </nx-radio>&nbsp;
-            <nx-radio nxValue="name" name='privname' class="nx-margin-left-s nx-margin-bottom-m">name of key in keystore</nx-radio>
-          </div>
-      </nx-radio-group>
-      <br>
-
-
-      <div nxRow>
-        <div nxCol="1">
-          <nx-label>Key: </nx-label>
-        </div>
-      <div nxCol="8" *ngIf="keyusage == 'bytes'">
-        <nx-formfield nxLabel="enter bytes">
-          <input nxInput type="text" size=64 [(ngModel)]="privkey" name='privkey' />
-          <nx-dropdown name='ddprivf' [(ngModel)]="keyform" >
-            <nx-dropdown-item name="'ddprivf_'+j" *ngFor="let item of keyforms; let j=index;" [nxValue]="item.name" >{{item.description}}</nx-dropdown-item>
-          </nx-dropdown>
-        </nx-formfield>
-        <nx-formfield nxLabel="algorithm" width=20>
-          <nx-dropdown name='ddpriva' nxInput [(ngModel)]="keyalg">
-            <nx-dropdown-item name="'ddpriva_'+j" *ngFor="let item of signers; let j=index;" [nxValue]="item.name">{{item.description}}</nx-dropdown-item>
-          </nx-dropdown>
-        </nx-formfield>
-      </div>
-      <div nxCol="4" *ngIf="keyusage == 'name'">
-        <nx-formfield nxLabel="select key name">
-          <nx-dropdown [(ngModel)]="privkey" name='selkey'>
-            <nx-dropdown-item *ngFor="let item of privkeys" name="'selkey_'+item" [nxValue]="item"></nx-dropdown-item>
-          </nx-dropdown>
-        </nx-formfield>
-      </div>
-    </div>
+      <asymkey [pkeys]="privkeys" [signers]="signers" [(pkey)]="privkey" [(keyusage)]="keyusage" [(keyform)]="keyform" [(keyalg)]="keyalg"> </asymkey>
 
       <br>
       <br>

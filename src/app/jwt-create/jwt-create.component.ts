@@ -55,6 +55,7 @@ export class JwtCreateComponent extends KryptBase implements OnInit {
     create_token() {
   
       let tokenReq: TokenRequest = this.req;
+      console.log(this);
   
       if (this.keyusage == 'name') {
         tokenReq.alg = 'keystore';

@@ -13,6 +13,7 @@ export class EncryptService {
   
     this.encoders = { Utf8: CryptoJS.enc.Utf8, Base64: CryptoJS.enc.Base64, Hex: CryptoJS.enc.Hex, Latin1: CryptoJS.enc.Latin1,
                       OpenSSL: CryptoJS.format.OpenSSL };
+
     this.algos = { Plain: new noenc(),
                   AES: CryptoJS.AES, DES: CryptoJS.DES, TripleDES: CryptoJS.TripleDES, 
                   RC4: CryptoJS.RC4, RC4Drop: CryptoJS.RC4Drop, Rabbit: CryptoJS.Rabbit,
@@ -22,7 +23,7 @@ export class EncryptService {
                   HmacMD5: CryptoJS.HmacMD5, HmacSHA1: CryptoJS.HmacSHA1, HmacSHA224: CryptoJS.HmacSHA224,
                   HmacSHA256: CryptoJS.HmacSHA256, HmacSHA3: CryptoJS.HmacSHA3, HmacSHA384: CryptoJS.HmacSHA384,
                   HmacSHA512: CryptoJS.HmacSHA512, HmacRIPEMD160: CryptoJS.HmacRIPEMD160  };
-  }
+    }
 
 
   public encrypt(msg: string, pwd: string, alg: string, enc1: string, enc2: string): any {

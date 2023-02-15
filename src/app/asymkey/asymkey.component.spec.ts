@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CodeASymComponent } from './code-asym.component';
+import { AsymkeyComponent } from './asymkey.component';
 
-describe('CodeASymComponent', () => {
-  let component: CodeASymComponent;
-  let fixture: ComponentFixture<CodeASymComponent>;
+describe('AsymkeyComponent', () => {
+  let component: AsymkeyComponent;
+  let fixture: ComponentFixture<AsymkeyComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CodeASymComponent ]
+      declarations: [ AsymkeyComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(CodeASymComponent);
+    fixture = TestBed.createComponent(AsymkeyComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

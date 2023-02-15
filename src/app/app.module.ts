@@ -15,7 +15,8 @@ import { NxGridModule } from '@aposin/ng-aquila/grid';
 import { JwtCreateComponent } from './jwt-create/jwt-create.component';
 import { JwtCheckComponent } from './jwt-check/jwt-check.component';
 import { CodeSymComponent } from './code-sym/code-sym.component';
-import { CodeAsymComponent } from './code-asym/code-asym.component'; 
+import { CodeASymComponent } from './code-asym/code-asym.component';
+import { AsymkeyComponent } from './asymkey/asymkey.component'; 
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { CodeAsymComponent } from './code-asym/code-asym.component';
     JwtCreateComponent,
     JwtCheckComponent,
     CodeSymComponent,
-    CodeAsymComponent,
+    CodeASymComponent,
+    AsymkeyComponent,
   ],
   imports: [
     BrowserModule,

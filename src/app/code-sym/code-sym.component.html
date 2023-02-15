@@ -1,1 +1,84 @@
-<p>code-sym works!</p>
+
+<br>
+<form>
+  <div nxLayout="grid">
+    <div nxRow>
+      <div nxCol="1">
+        <label>Input: </label>
+      </div>
+      <div nxCol="9">
+        <textarea nxAlign='top' nxInput [(ngModel)]="inptext" rows=10 cols=132 name='inptxt'></textarea>
+      </div>
+    </div>
+    <br>
+    <br>
+    <div nxRow class="dropdown">
+      <div nxCol="2">
+        <nx-formfield nxLabel="source encoding">
+          <nx-dropdown [(ngModel)]="srcEncoding" name='srcenc'>
+            <nx-dropdown-item *ngFor="let item of encodings;" [nxValue]="item"></nx-dropdown-item>
+          </nx-dropdown>
+        </nx-formfield>
+      </div>
+      <div nxCol="3">
+        <nx-formfield nxLabel="encryption/hash">
+          <nx-dropdown [(ngModel)]="algorithm" name='alg'>
+            <nx-dropdown-item [nxValue]="'Plain'"></nx-dropdown-item>
+            <nx-dropdown-group nxLabel="encryption">
+              <nx-dropdown-item *ngFor="let item of encryptings" [nxValue]="item"></nx-dropdown-item>
+            </nx-dropdown-group>
+            <nx-dropdown-group nxLabel="hashing">
+              <nx-dropdown-item *ngFor="let item of hashings" [nxValue]="item"></nx-dropdown-item>
+            </nx-dropdown-group>
+            <nx-dropdown-group nxLabel="HMAC">
+              <nx-dropdown-item *ngFor="let item of hashings" [nxValue]="'Hmac'+item"></nx-dropdown-item>
+            </nx-dropdown-group>
+          </nx-dropdown>
+        </nx-formfield>
+      </div>
+      <div nxCol="2">
+        <nx-formfield nxLabel="target encoding">
+          <nx-dropdown [(ngModel)]="destEncoding" name='destenc'>
+            <nx-dropdown-item *ngFor="let item of encodings" [nxValue]="item"></nx-dropdown-item>
+          </nx-dropdown>
+        </nx-formfield>
+      </div>
+    </div>
+    <br>
+    <div nxRow>
+    <nx-formfield nxLabel="{{encryptings.indexOf(algorithm) == -1 && !algorithm.startsWith('Hmac') ? 'No password
+      needed':'Password/Key: '}}" *ngIf="encryptings.indexOf(algorithm) > -1 || algorithm.startsWith('Hmac')" >
+        <input type="text" nxInput size=100 [(ngModel)]="key" name='key' *ngIf="encryptings.indexOf(algorithm) > -1 || algorithm.startsWith('Hmac')" />
+          <nx-dropdown nxInput name='ddenckeyf' [(ngModel)]="keyform" *ngIf="encryptings.indexOf(algorithm) > -1 || algorithm.startsWith('Hmac')">
+            <nx-dropdown-item name="'ddenckeyf_'+j" *ngFor="let item of keyforms; let j=index;" [nxValue]="item.name" >{{item.description}}</nx-dropdown-item>
+          </nx-dropdown>
+    </nx-formfield>
+  </div>
+
+    <br>
+    <br>
+    <button *ngIf="encryptings.indexOf(algorithm) >= 0" type="button" nxButton="primary medium" (click)="encode()"
+      [disabled]="key.trim().length==0">
+      Encrypt Text
+    </button>
+    <button *ngIf="hashings.indexOf(algorithm) >= 0 || algorithm.startsWith('Hmac')" type="button"
+      nxButton="primary medium" (click)="encode()"
+      [disabled]="algorithm.startsWith('Hmac') && key.trim().length==0">
+      Hash Text
+    </button>
+    <button *ngIf="encryptings.indexOf(algorithm) >= 0" type="button" nxButton="primary medium" (click)="decode()"
+      [disabled]="key.trim().length==0">
+      Decrypt Text
+    </button>
+    <button *ngIf="algorithm == 'Plain'" type="button" nxButton="primary medium" (click)="encode()">Recode
+      Text</button>
+    <br>
+    <br>
+    <div nxRow>
+      <div nxCol="1"><label>Result: </label></div>
+      <div nxCol="9">
+        <textarea nxInput [ngModel]="outtext" rows="10" cols=132 name='outtext'></textarea>
+      </div>
+    </div>
+  </div>
+</form>

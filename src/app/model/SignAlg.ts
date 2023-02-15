@@ -14,4 +14,5 @@
     name?: string;
     minLen?: number;
     description?: string;
+    family?: string;
 }
