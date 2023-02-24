@@ -30,8 +30,7 @@ export class KryptBase {
         }
         return key;
     }
-    
-    
+      
     hex2a(hexx: string) { 
       var str = '';     
       for (var i = 0; i < hexx.length; i += 2)  {  

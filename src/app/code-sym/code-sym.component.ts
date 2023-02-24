@@ -2,6 +2,7 @@ import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { SignAlg } from '../model/SignAlg';
 import { EncryptService } from '../encrypt.service';
+import * as FileSaver from 'file-saver';
 
 
 @Component({
@@ -27,6 +28,7 @@ export class CodeSymComponent implements OnInit {
   public srcEncoding: string;
   public destEncoding: string;
   public algorithm: string;
+  public fileName: string;
 
   constructor(protected encryptService: EncryptService) {
     this.reason = '';
@@ -44,6 +46,7 @@ export class CodeSymComponent implements OnInit {
     this.encodings = encryptService.listEnc();
     this.encryptings = encryptService.listCrypt();
     this.hashings = encryptService.listHash();
+    this.fileName = '';
   }
 
   ngOnInit() {
@@ -63,16 +66,25 @@ private decodeKey(key: string) {
 decode() {
 
   this.outtext = this.encryptService.decrypt(this.inptext, this.decodeKey(this.key), this.algorithm, this.srcEncoding, this.destEncoding);
+  if (this.fileName) {
+    const blob = new Blob([this.outtext], {type: 'text/plain'});
+    FileSaver.saveAs(blob, this.fileName);
+  }
   return;
 
 }
 encode() {
+  let result: any;
   if  (this.hashings.indexOf(this.algorithm) >= 0) {
-    this.outtext = this.encryptService.hash(this.inptext, this.decodeKey(this.key), this.algorithm, this.srcEncoding, this.destEncoding);
+    result = this.encryptService.hash(this.inptext, this.decodeKey(this.key), this.algorithm, this.srcEncoding, this.destEncoding);
   } else {
-    this.outtext = this.encryptService.encrypt(this.inptext, this.decodeKey(this.key), this.algorithm, this.srcEncoding, this.destEncoding);
+    result = this.encryptService.encrypt(this.inptext, this.decodeKey(this.key), this.algorithm, this.srcEncoding, this.destEncoding);
   } 
-
+  this.outtext = result;
+  if (this.fileName) {
+    const blob = new Blob([result], {type: 'application/octet-stream'});
+    FileSaver.saveAs(blob, this.fileName);
+  }
 }
 
 hex2a(hexx: String) { 

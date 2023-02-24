@@ -25,7 +25,6 @@ export class EncryptService {
                   HmacSHA512: CryptoJS.HmacSHA512, HmacRIPEMD160: CryptoJS.HmacRIPEMD160  };
     }
 
-
   public encrypt(msg: string, pwd: string, alg: string, enc1: string, enc2: string): any {
      const doEnc1 = this.encoders[enc1];
      const doEnc2 = this.encoders[enc2];
@@ -105,7 +104,6 @@ export class EncryptService {
   }
 
 }
-
 
 class noenc {
   public encrypt(msg: any, pwd: string) {

@@ -70,8 +70,8 @@
       [disabled]="key.trim().length==0">
       Decrypt Text
     </button>
-    <button *ngIf="algorithm == 'Plain'" type="button" nxButton="primary medium" (click)="encode()">Recode
-      Text</button>
+    <button *ngIf="algorithm == 'Plain'" type="button" nxButton="primary medium" (click)="encode()">Recode Text</button>
+    &nbsp;&nbsp;<label>save to file: </label> <input type="text" nxInput name='fname' size="20" [(ngModel)]="fileName"/> 
     <br>
     <br>
     <div nxRow>
