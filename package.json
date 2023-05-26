@@ -20,7 +20,7 @@
     "@angular/platform-browser": "^16.0.3",
     "@angular/platform-browser-dynamic": "^16.0.3",
     "@angular/router": "^16.0.3",
-    "@aposin/ng-aquila": "^16.0.0",
+    "@aposin/ng-aquila": "^15.4.1",
     "crypto-js": "^4.1.1",
     "css-vars-ponyfill": "^2.1.2",
     "dayjs": "^1.11.5",
