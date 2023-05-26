@@ -14,43 +14,43 @@
     <br>
     <div nxRow class="dropdown">
       <div nxCol="2">
-        <nx-formfield nxLabel="source encoding">
+        <nx-formfield label="source encoding">
           <nx-dropdown [(ngModel)]="srcEncoding" name='srcenc'>
-            <nx-dropdown-item *ngFor="let item of encodings;" [nxValue]="item"></nx-dropdown-item>
+            <nx-dropdown-item *ngFor="let item of encodings;" [value]="item"></nx-dropdown-item>
           </nx-dropdown>
         </nx-formfield>
       </div>
       <div nxCol="3">
-        <nx-formfield nxLabel="encryption/hash">
+        <nx-formfield label="encryption/hash">
           <nx-dropdown [(ngModel)]="algorithm" name='alg'>
-            <nx-dropdown-item [nxValue]="'Plain'"></nx-dropdown-item>
-            <nx-dropdown-group nxLabel="encryption">
-              <nx-dropdown-item *ngFor="let item of encryptings" [nxValue]="item"></nx-dropdown-item>
+            <nx-dropdown-item [value]="'Plain'"></nx-dropdown-item>
+            <nx-dropdown-group label="encryption">
+              <nx-dropdown-item *ngFor="let item of encryptings" [value]="item"></nx-dropdown-item>
             </nx-dropdown-group>
-            <nx-dropdown-group nxLabel="hashing">
-              <nx-dropdown-item *ngFor="let item of hashings" [nxValue]="item"></nx-dropdown-item>
+            <nx-dropdown-group label="hashing">
+              <nx-dropdown-item *ngFor="let item of hashings" [value]="item"></nx-dropdown-item>
             </nx-dropdown-group>
-            <nx-dropdown-group nxLabel="HMAC">
-              <nx-dropdown-item *ngFor="let item of hashings" [nxValue]="'Hmac'+item"></nx-dropdown-item>
+            <nx-dropdown-group label="HMAC">
+              <nx-dropdown-item *ngFor="let item of hashings" [value]="'Hmac'+item"></nx-dropdown-item>
             </nx-dropdown-group>
           </nx-dropdown>
         </nx-formfield>
       </div>
       <div nxCol="2">
-        <nx-formfield nxLabel="target encoding">
+        <nx-formfield label="target encoding">
           <nx-dropdown [(ngModel)]="destEncoding" name='destenc'>
-            <nx-dropdown-item *ngFor="let item of encodings" [nxValue]="item"></nx-dropdown-item>
+            <nx-dropdown-item *ngFor="let item of encodings" [value]="item"></nx-dropdown-item>
           </nx-dropdown>
         </nx-formfield>
       </div>
     </div>
     <br>
     <div nxRow>
-    <nx-formfield nxLabel="{{encryptings.indexOf(algorithm) == -1 && !algorithm.startsWith('Hmac') ? 'No password
+    <nx-formfield label="{{encryptings.indexOf(algorithm) == -1 && !algorithm.startsWith('Hmac') ? 'No password
       needed':'Password/Key: '}}" *ngIf="encryptings.indexOf(algorithm) > -1 || algorithm.startsWith('Hmac')" >
         <input type="text" nxInput size=100 [(ngModel)]="key" name='key' *ngIf="encryptings.indexOf(algorithm) > -1 || algorithm.startsWith('Hmac')" />
           <nx-dropdown nxInput name='ddenckeyf' [(ngModel)]="keyform" *ngIf="encryptings.indexOf(algorithm) > -1 || algorithm.startsWith('Hmac')">
-            <nx-dropdown-item name="'ddenckeyf_'+j" *ngFor="let item of keyforms; let j=index;" [nxValue]="item.name" >{{item.description}}</nx-dropdown-item>
+            <nx-dropdown-item name="'ddenckeyf_'+j" *ngFor="let item of keyforms; let j=index;" [value]="item.name" >{{item.description}}</nx-dropdown-item>
           </nx-dropdown>
     </nx-formfield>
   </div>

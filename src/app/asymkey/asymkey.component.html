@@ -1,8 +1,8 @@
 <nx-radio-group name="keyTypeGroup" [(ngModel)]="keyusage" >
     <nx-label class="nx-margin-bottom-m">Key is</nx-label>
     <div class="horizontal-buttons">
-      <nx-radio nxValue="bytes" name='pbytes' class="nx-margin-bottom-m">key as bytes&nbsp; </nx-radio>&nbsp;
-      <nx-radio nxValue="name" name='pname' class="nx-margin-left-s nx-margin-bottom-m">name of key in keystore</nx-radio>
+      <nx-radio value="bytes" name='pbytes' class="nx-margin-bottom-m">key as bytes&nbsp; </nx-radio>&nbsp;
+      <nx-radio value="name" name='pname' class="nx-margin-left-s nx-margin-bottom-m">name of key in keystore</nx-radio>
     </div>
   </nx-radio-group>
   <br>
@@ -11,22 +11,22 @@
       <nx-label>Key: </nx-label> 
     </div>
     <div nxCol="8" *ngIf="keyusage == 'bytes'">
-      <nx-formfield nxLabel="enter bytes">
+      <nx-formfield label="enter bytes">
         <input nxInput type="text" size=64 [(ngModel)]="pkey" />
         <nx-dropdown [(ngModel)]="keyform" >
-          <nx-dropdown-item *ngFor="let item of keyforms; let j=index;" [nxValue]="item.name" >{{item.description}}</nx-dropdown-item>
+          <nx-dropdown-item *ngFor="let item of keyforms; let j=index;" [value]="item.name" >{{item.description}}</nx-dropdown-item>
         </nx-dropdown>
       </nx-formfield>
-      <nx-formfield nxLabel="algorithm" width=20>
+      <nx-formfield label="algorithm" width=20>
         <nx-dropdown nxInput [(ngModel)]="keyalg" >
-          <nx-dropdown-item *ngFor="let item of signers; let j=index;" [nxValue]="item.name">{{item.description}}</nx-dropdown-item>
+          <nx-dropdown-item *ngFor="let item of signers; let j=index;" [value]="item.name">{{item.description}}</nx-dropdown-item>
         </nx-dropdown>
       </nx-formfield>
     </div>
     <div nxCol="4" *ngIf="keyusage == 'name'">
-      <nx-formfield nxLabel="select key name">
+      <nx-formfield label="select key name">
         <nx-dropdown [(ngModel)]="pkey" >
-          <nx-dropdown-item *ngFor="let item of pkeys; let j=index;" [nxValue]="item" ></nx-dropdown-item>
+          <nx-dropdown-item *ngFor="let item of pkeys; let j=index;" [value]="item" ></nx-dropdown-item>
         </nx-dropdown>
       </nx-formfield>
     </div>
