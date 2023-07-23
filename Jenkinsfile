@@ -19,6 +19,7 @@ pipeline {
         }
         stage('build') {
             steps {
+                sh 'openapi-generator-cli generate -i ./openapi.yaml  -g typescript-angular -o src/kryptutil-api-out'
                 sh 'ng build --base-href /kryptutil/'
                 sh 'tar zcf kryptutil.tgz ./public'
             }
