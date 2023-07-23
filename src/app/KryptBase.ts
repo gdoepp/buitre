@@ -1,4 +1,4 @@
-import { SignAlg } from './model/SignAlg';
+import { SignAlg } from './../kryptutil-api-out/model/signAlg';
 
 
 export class KryptBase {

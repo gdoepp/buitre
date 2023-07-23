@@ -1,10 +1,48 @@
-
-
 <div nxLayout="grid maxwidth">
-    <br>
+  
+<br>
+<form>
+  <div nxLayout="grid">
 
+      <asymkey [pkeys]="privKeys" [(pkey)]="privKey" [(keyusage)]="keyusageE" [(keyform)]="keyformE"> </asymkey>
+
+    <div nxRow>
+      <div nxCol="1">
+        <label>Clear text: </label>
+      </div>
+      <div nxCol="9">
+        <textarea nxAlign='top' nxInput [(ngModel)]="origtext" rows=10 cols=132 name='origtxt'></textarea>
+      </div>
+    </div>
     <br>
-    <asymkey [pkeys]="pubkeys" [(pkey)]="pubkey" [(keyusage)]="keyusage" [(keyform)]="keyform" [(keyalg)]="keyalg"> </asymkey>
+    <br>
+    <button  type="button" nxButton="primary medium" (click)="encode()"
+      >
+      Encrypt Text
+    </button>
+    <br>
+    <div nxRow>
+      <div nxCol="1"><label>Encrypted text: </label></div>
+      <div nxCol="9">
+        <textarea nxInput [ngModel]="enctext" rows="10" cols=132 name='enctext'></textarea>
+      </div>
+    </div>
+    <br>
+    <asymkey [pkeys]="pubKeys" [(pkey)]="pubKey" [(keyusage)]="keyusageD" [(keyform)]="keyformD"> </asymkey>
+    <br>
+    <button  type="button" nxButton="primary medium" (click)="decode()"
+      >
+      Decrypt Text
+    </button>
+    &nbsp;&nbsp;<label>save to file: </label> <input type="text" nxInput name='fname' size="20" [(ngModel)]="fileName"/> 
     <br>
     <br>
+    <div nxRow>
+      <div nxCol="1"><label>Result: </label></div>
+      <div nxCol="9">
+        <textarea nxInput [ngModel]="dectext" rows="10" cols=132 name='dectext'></textarea>
+      </div>
+    </div>
+  </div>
+</form>
 </div>

@@ -1,6 +1,6 @@
 import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
-import { SignAlg } from '../model/SignAlg';
+import { SignAlg } from '../../kryptutil-api-out/model/signAlg';
 import { EncryptService } from '../encrypt.service';
 import * as FileSaver from 'file-saver';
 

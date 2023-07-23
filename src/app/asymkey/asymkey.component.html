@@ -1,4 +1,4 @@
-<nx-radio-group name="keyTypeGroup" [(ngModel)]="keyusage" >
+<nx-radio-group [name]="'kTG'+sid" [(ngModel)]="keyusage" >
     <nx-label class="nx-margin-bottom-m">Key is</nx-label>
     <div class="horizontal-buttons">
       <nx-radio value="bytes" name='pbytes' class="nx-margin-bottom-m">key as bytes&nbsp; </nx-radio>&nbsp;
@@ -7,9 +7,6 @@
   </nx-radio-group>
   <br>
   <div nxRow>
-    <div nxCol="1">
-      <nx-label>Key: </nx-label> 
-    </div>
     <div nxCol="8" *ngIf="keyusage == 'bytes'">
       <nx-formfield label="enter bytes">
         <input nxInput type="text" size=64 [(ngModel)]="pkey" />
@@ -17,7 +14,7 @@
           <nx-dropdown-item *ngFor="let item of keyforms; let j=index;" [value]="item.name" >{{item.description}}</nx-dropdown-item>
         </nx-dropdown>
       </nx-formfield>
-      <nx-formfield label="algorithm" width=20>
+      <nx-formfield *ngIf="signers.length>0" label="algorithm" width=20>
         <nx-dropdown nxInput [(ngModel)]="keyalg" >
           <nx-dropdown-item *ngFor="let item of signers; let j=index;" [value]="item.name">{{item.description}}</nx-dropdown-item>
         </nx-dropdown>

@@ -4,7 +4,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 
-import { TokenService } from './token.service';
+import { TokenService } from './../kryptutil-api-out/api/token.service';
+import { PgpService } from './../kryptutil-api-out/api/pgp.service';
 import { HttpClientModule } from '@angular/common/http';
 import { NxExpertModule } from '@aposin/ng-aquila/config';
 import { NxTabsModule } from '@aposin/ng-aquila/tabs'; 
@@ -39,7 +40,7 @@ import { AsymkeyComponent } from './asymkey/asymkey.component';
     NxGridModule,
     NxDropdownModule
   ],
-  providers: [TokenService],
+  providers: [TokenService, PgpService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

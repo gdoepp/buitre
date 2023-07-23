@@ -1,8 +1,8 @@
 import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { KryptBase } from '../KryptBase';
-import { SignAlg } from '../model/SignAlg';
-import { TokenService } from '../token.service';
+import { SignAlg } from '../../kryptutil-api-out/model/signAlg';
+import { TokenService } from '../../kryptutil-api-out/api/token.service';
 
 @Component({
   selector: 'jwt-check',

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { SignAlg } from '../model/SignAlg';
+import { SignAlg } from '../../kryptutil-api-out/model/signAlg';
 import { KryptBase } from '../KryptBase';
-import { TokenRequest } from '../model/tokenRequest';
-import { AppClaim } from '../model/appClaim';
-import { TokenService } from '../token.service';
-import { RequestedClaim } from '../model/requestedClaim';
+import { AppClaim} from '../appClaims';
+import { TokenRequest } from '../../kryptutil-api-out/model/tokenRequest';
+import { TokenService } from '../../kryptutil-api-out/api/token.service';
+import { RequestedClaim } from '../../kryptutil-api-out/model/requestedClaim';
 
 @Component({
   selector: 'jwt-create',

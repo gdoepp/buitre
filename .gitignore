@@ -42,6 +42,9 @@ yarn-error.log
 testem.log
 /typings
 
+/public/
+/src/kryptutil-api-out/
+
 # System Files
 .DS_Store
 Thumbs.db

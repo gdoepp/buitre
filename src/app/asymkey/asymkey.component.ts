@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
-import { TokenService } from '../token.service';
-import { SignAlg } from '../model/SignAlg';
+import { PgpService } from '../../kryptutil-api-out/api/pgp.service';
+import { SignAlg } from '../../kryptutil-api-out/model/signAlg';
+import { randomString } from '@aposin/ng-aquila/utils';
 
 
 @Component({
@@ -16,6 +17,7 @@ export class AsymkeyComponent {
   private _keyform: string = 'base64';
   private _keyalg: string = 'HS256';
   private _keyusage: string = 'name';
+  public sid = "";
 
   @Input() public pkeys: string[];
   @Input() public signers: SignAlg[] = [];
@@ -36,8 +38,9 @@ export class AsymkeyComponent {
   public set keyusage(s: string) { if (s !== this._keyusage) this.keyusageChange.emit(s); this._keyusage = s; }
   
 
-  constructor(private tokenService: TokenService) {
+  constructor(private pgpService: PgpService) {
     this.pkeys = [];
+    this.sid = randomString();
     this.keyforms = [{name:'chars', description: 'plain chars'}, {name:'hex',description:'hex big integer'}, {name:'base64', description:'base64 or pkcs8 pem'}];
   }
 }

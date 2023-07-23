@@ -1,0 +1,317 @@
+openapi: 3.0.1
+info:
+  title: Kryptutil API
+  description: 'JWT, crypt, hash'
+  license:
+    name: Apache 2.0
+    url: 'http://springdoc.org'
+  version: v0.0.4
+servers:
+  - url: 'https://www.gdoeppert.de/kryptutil'
+  - url: 'http://localhost:28080/kryptutil'
+paths:
+  /token/new:
+    post:
+      tags:
+        - token
+      operationId: create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+  '/pgp/encryptAsymFile/{key}':
+    post:
+      tags:
+        - pgp
+      operationId: encryptAsymFile
+      parameters:
+        - name: key
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+  '/pgp/encryptAsym/{key}':
+    post:
+      tags:
+        - pgp
+      operationId: encryptAsym
+      parameters:
+        - name: key
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          text/plain:
+            schema:
+              type: string
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+  /pgp/encode64:
+    post:
+      tags:
+        - pgp
+      operationId: encode64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+  '/pgp/decryptAsymFile/{key}':
+    post:
+      tags:
+        - pgp
+      operationId: decryptAsymFile
+      parameters:
+        - name: key
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+  '/pgp/decryptAsym/{key}':
+    post:
+      tags:
+        - pgp
+      operationId: decryptAsym
+      parameters:
+        - name: key
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          text/plain:
+            schema:
+              type: string
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+  /pgp/decode64:
+    post:
+      tags:
+        - pgp
+      operationId: decode64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+  /token/listpubkeys:
+    get:
+      tags:
+        - token
+      operationId: listPubkeys
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  type: string
+  /token/listprivkeys:
+    get:
+      tags:
+        - token
+      operationId: listPrivkeys
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  type: string
+  /token/listalgs:
+    get:
+      tags:
+        - token
+      operationId: listAlgs
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SignAlg'
+  /token/check:
+    get:
+      tags:
+        - token
+      operationId: checkJwt
+      parameters:
+        - name: jwt
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: key
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: keyalg
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ValidationResult'
+  /pgp/listpubkeys:
+    get:
+      tags:
+        - pgp
+      operationId: listPubKeys
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  type: string
+  /pgp/listprivkeys:
+    get:
+      tags:
+        - pgp
+      operationId: listPrivKeys
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  type: string
+components:
+  schemas:
+    RequestedClaim:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+    TokenRequest:
+      type: object
+      properties:
+        subject:
+          type: string
+        tokenName:
+          type: string
+        audience:
+          type: string
+        notBefore:
+          type: string
+          format: date-time
+        expiration:
+          type: string
+          format: date-time
+        issuer:
+          type: string
+        key:
+          type: string
+        alg:
+          type: string
+        claims:
+          type: array
+          items:
+            $ref: '#/components/schemas/RequestedClaim'
+    SignAlg:
+      type: object
+      properties:
+        name:
+          type: string
+        minLen:
+          type: integer
+          format: int32
+        description:
+          type: string
+        family:
+          type: string
+    ValidationResult:
+      type: object
+      properties:
+        result:
+          type: string
+        reason:
+          type: string
