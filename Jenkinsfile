@@ -2,7 +2,7 @@ pipeline {
     agent { 
         docker {
             image 'ngbuild' 
-            args '-v /mnt/storage/jenkins/dot-npm:/root/.npm --privileged --user 0'
+            args '-v /mnt/storage/jenkins/dot-npm:/root/.npm -v/mnt/storage/jenkins-agent/dot-cache:/root/.cache --privileged --user 0'
             }
     }
     stages {
