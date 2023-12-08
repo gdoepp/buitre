@@ -74,18 +74,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "jwt-demo:build"
+            "buildTarget": "jwt-demo:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "jwt-demo:build:production"
+              "buildTarget": "jwt-demo:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "jwt-demo:build"
+            "buildTarget": "jwt-demo:build"
           }
         },
         "test": {
