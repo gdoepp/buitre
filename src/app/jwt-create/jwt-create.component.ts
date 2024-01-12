@@ -22,11 +22,13 @@ export class JwtCreateComponent extends KryptBase implements OnInit {
     public clname: string;
     public algorithm: string;
     public privkeys: string[];
+    public pubkey: string;
   
     constructor(protected tokenService: TokenService) {
       super();
       this.username = '';
       this.privkey = '';
+      this.pubkey = '';
       this.reason = '';
       this.claim = '';
       this.myClaims = [];
@@ -61,8 +63,12 @@ export class JwtCreateComponent extends KryptBase implements OnInit {
         tokenReq.alg = 'keystore';
         tokenReq.key = this.privkey;
       } else {
-        tokenReq.alg = this.keyalg;
-        tokenReq.key = super.decodeKey64(this.privkey);
+        tokenReq.alg = this.signers[this.keyalg].name;
+        if (this.signers[this.keyalg].minLen>0) {
+          tokenReq.key = super.decodeKey64(this.privkey);
+        } else {
+          tokenReq.key = '';
+        }
       } 
     
     let claims : RequestedClaim[] = [];
@@ -79,9 +85,10 @@ export class JwtCreateComponent extends KryptBase implements OnInit {
     }
     this.tokenstring = '';
     this.tokenService.create(tokenReq).subscribe( 
-      (ret: string) => { this.tokenstring = ret; }, 
-      (err: any) => { console.log('error: ' + err.message); this.tokenstring = err.error;},
-      () => {   }
+      {
+        next: (ret: any ) => { console.log('next: ' + JSON.stringify(ret)); this.tokenstring = ret.token; this.pubkey = ret.pubkey; }, 
+        error: (err: any) => { console.log('error: ' + JSON.stringify(err)); this.tokenstring = err.error.error + "\n" + err.message;}
+      }
       );
   
   }

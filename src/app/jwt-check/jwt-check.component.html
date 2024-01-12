@@ -7,11 +7,12 @@
       <div nxCol="1">
         <label>Token: </label>
       </div>
-      <div nxCol="9"><textarea nxInput [(ngModel)]="tokenstring" name='tokenstring' rows=4 cols=80></textarea>
+      <div nxCol="9"><textarea nxInput [(ngModel)]="tokenstring" name='tokenstring' (change)="chg_token()"  rows=4 cols=80></textarea>
       </div>
     </div>
     <br>
-    <asymkey [pkeys]="pubkeys" [signers]="signers" [(pkey)]="pubkey" [(keyusage)]="keyusage" [(keyform)]="keyform" [(keyalg)]="keyalg"> </asymkey>
+    <label>signed with: {{algo}}</label><br><br>
+    <asymkey [pkeys]="pubkeys" [signers]="signers" [(pkey)]="pubkey" [(keyusage)]="keyusage" [(keyform)]="keyform" [mode]="'c'" [(keyalg)]="keyalg"> </asymkey>
     <br>
     <br>
     <button nxButton="primary small" type="button" (click)="check_token()">check token</button>

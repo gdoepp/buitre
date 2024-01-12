@@ -1,22 +1,22 @@
 <nx-radio-group [name]="'kTG'+sid" [(ngModel)]="keyusage" >
     <nx-label class="nx-margin-bottom-m">Key is</nx-label>
     <div class="horizontal-buttons">
-      <nx-radio value="bytes" name='pbytes' class="nx-margin-bottom-m">key as bytes&nbsp; </nx-radio>&nbsp;
+      <nx-radio *ngIf="mode!='p'" value="bytes" name='pbytes' class="nx-margin-bottom-m">key as bytes&nbsp; </nx-radio>&nbsp;
       <nx-radio value="name" name='pname' class="nx-margin-left-s nx-margin-bottom-m">name of key in keystore</nx-radio>
     </div>
   </nx-radio-group>
   <br>
   <div nxRow>
     <div nxCol="8" *ngIf="keyusage == 'bytes'">
-      <nx-formfield label="enter bytes">
+      <nx-formfield label="enter bytes" *ngIf="signers[keyalg].minLen>0 || mode=='c'">
         <input nxInput type="text" size=64 [(ngModel)]="pkey" />
         <nx-dropdown [(ngModel)]="keyform" >
           <nx-dropdown-item *ngFor="let item of keyforms; let j=index;" [value]="item.name" >{{item.description}}</nx-dropdown-item>
         </nx-dropdown>
       </nx-formfield>
-      <nx-formfield *ngIf="signers.length>0" label="algorithm" width=20>
+      <nx-formfield *ngIf="signers.length>0 && mode=='g'" label="algorithm" width=20>
         <nx-dropdown nxInput [(ngModel)]="keyalg" >
-          <nx-dropdown-item *ngFor="let item of signers; let j=index;" [value]="item.name">{{item.description}}</nx-dropdown-item>
+          <nx-dropdown-item *ngFor="let item of signers|filter :'usage' : mode ; let j=index;" [value]="j" >{{item.description}}</nx-dropdown-item>
         </nx-dropdown>
       </nx-formfield>
     </div>

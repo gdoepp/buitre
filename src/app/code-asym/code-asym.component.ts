@@ -16,7 +16,7 @@ export class CodeASymComponent extends KryptBase implements OnInit {
   public enctext: string;
   public dectext: string;
   public currentIndex: number;
-  public keyalg: string;
+  public keyalg: number;
   public keyusageE: string;
   public keyusageD: string;
   public keyformE: string;
@@ -34,7 +34,7 @@ export class CodeASymComponent extends KryptBase implements OnInit {
     this.reason = '';
     this.pubKey = 'default';
     this.privKey = 'default';
-    this.keyalg = 'HS256';
+    this.keyalg = 0;
     this.keyusageE = 'name';
     this.keyusageD = 'name';
     this.keyformE = 'base64';
@@ -49,9 +49,10 @@ export class CodeASymComponent extends KryptBase implements OnInit {
     this.algorithm = 'Plain';
     this.fileName = '';
     this.pubKeys = [];
-    this.privKeys = []
+    this.privKeys = []    
   }
   ngOnInit() {
+
 
     this.pgpService.listPrivKeys().subscribe(
       (ret: string[]) => { this.privKeys = ret; }

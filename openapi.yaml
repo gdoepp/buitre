@@ -5,7 +5,7 @@ info:
   license:
     name: Apache 2.0
     url: 'http://springdoc.org'
-  version: v0.0.4
+  version: v0.0.5
 servers:
   - url: 'https://www.gdoeppert.de/kryptutil'
   - url: 'http://localhost:28080/kryptutil'
@@ -25,9 +25,23 @@ paths:
         '200':
           description: OK
           content:
-            '*/*':
+            'application/json':
               schema:
-                type: string
+                type: object
+                properties:
+                  token: 
+                    type: string
+                  pubkey: 
+                    type: string
+        '400':
+          description: NOK
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  error: 
+                    type: string
   '/pgp/encryptAsymFile/{key}':
     post:
       tags:
@@ -222,7 +236,7 @@ paths:
           required: true
           schema:
             type: string
-        - name: keyalg
+        - name: keysrc
           in: query
           required: true
           schema:
@@ -231,7 +245,13 @@ paths:
         '200':
           description: OK
           content:
-            '*/*':
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ValidationResult'
+        '400':
+          description: NOK
+          content:
+            'application/json':
               schema:
                 $ref: '#/components/schemas/ValidationResult'
   /pgp/listpubkeys:
@@ -282,10 +302,10 @@ components:
           type: string
         notBefore:
           type: string
-          format: date-time
+          format: date
         expiration:
           type: string
-          format: date-time
+          format: date
         issuer:
           type: string
         key:
@@ -298,6 +318,11 @@ components:
             $ref: '#/components/schemas/RequestedClaim'
     SignAlg:
       type: object
+      required:
+        - name
+        - minLen
+        - description
+        - usage
       properties:
         name:
           type: string
@@ -306,7 +331,7 @@ components:
           format: int32
         description:
           type: string
-        family:
+        usage:
           type: string
     ValidationResult:
       type: object

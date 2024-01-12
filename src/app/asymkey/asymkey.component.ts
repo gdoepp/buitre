@@ -3,7 +3,6 @@ import { PgpService } from '../../kryptutil-api-out/api/pgp.service';
 import { SignAlg } from '../../kryptutil-api-out/model/signAlg';
 import { randomString } from '@aposin/ng-aquila/utils';
 
-
 @Component({
   selector: 'asymkey',
   templateUrl: './asymkey.component.html',
@@ -15,10 +14,11 @@ export class AsymkeyComponent {
   
   private _pkey : string = '';
   private _keyform: string = 'base64';
-  private _keyalg: string = 'HS256';
+  private _keyalg: number = 0;
   private _keyusage: string = 'name';
   public sid = "";
 
+  @Input() public mode: string;
   @Input() public pkeys: string[];
   @Input() public signers: SignAlg[] = [];
   
@@ -31,8 +31,8 @@ export class AsymkeyComponent {
   public set keyform(s: string) {  if (s !== this._keyform) this.keyformChange.emit(s); this._keyform = s;}
   
   @Input() public get keyalg() { return this._keyalg; }
-  @Output() keyalgChange = new EventEmitter<string>();
-  public set keyalg(s: string) { if (s !== this._keyalg) this.keyalgChange.emit(s); this._keyalg = s; }
+  @Output() keyalgChange = new EventEmitter<number>();
+  public set keyalg(j: number) { if (j !== this._keyalg) this.keyalgChange.emit(j); this._keyalg = j; }
   @Input() public get keyusage() { return this._keyusage; }
   @Output() keyusageChange = new EventEmitter<string>();
   public set keyusage(s: string) { if (s !== this._keyusage) this.keyusageChange.emit(s); this._keyusage = s; }
@@ -40,6 +40,7 @@ export class AsymkeyComponent {
 
   constructor(private pgpService: PgpService) {
     this.pkeys = [];
+    this.mode = "x";
     this.sid = randomString();
     this.keyforms = [{name:'chars', description: 'plain chars'}, {name:'hex',description:'hex big integer'}, {name:'base64', description:'base64 or pkcs8 pem'}];
   }

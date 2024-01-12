@@ -4,7 +4,7 @@ import { SignAlg } from './../kryptutil-api-out/model/signAlg';
 export class KryptBase {
     public tokenstring: string;
     public key: string;
-    public keyalg: string;
+    public keyalg: number;
     public keyusage: string;
     public keyform: string;
     public keyforms: any[];
@@ -13,7 +13,7 @@ export class KryptBase {
     constructor() {
         this.tokenstring = '';
         this.key = '';
-        this.keyalg = 'HS256';
+        this.keyalg = 0;
         this.keyusage = 'name';
         this.keyform = 'base64';
         this.keyforms = [{name:'chars', description: 'plain chars'}, {name:'hex',description:'hex big integer'}, {name:'base64', description:'base64 or pkcs8 pem'}];

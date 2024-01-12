@@ -4,7 +4,7 @@
 <form>
   <div nxLayout="grid">
 
-      <asymkey [pkeys]="privKeys" [(pkey)]="privKey" [(keyusage)]="keyusageE" [(keyform)]="keyformE"> </asymkey>
+      <asymkey [pkeys]="privKeys" [(pkey)]="privKey" [(keyusage)]="keyusageE" [mode]="'p'" [(keyform)]="keyformE"> </asymkey>
 
     <div nxRow>
       <div nxCol="1">
@@ -28,7 +28,7 @@
       </div>
     </div>
     <br>
-    <asymkey [pkeys]="pubKeys" [(pkey)]="pubKey" [(keyusage)]="keyusageD" [(keyform)]="keyformD"> </asymkey>
+    <asymkey [pkeys]="pubKeys" [(pkey)]="pubKey" [(keyusage)]="keyusageD" [mode]="'p'" [(keyform)]="keyformD"> </asymkey>
     <br>
     <button  type="button" nxButton="primary medium" (click)="decode()"
       >

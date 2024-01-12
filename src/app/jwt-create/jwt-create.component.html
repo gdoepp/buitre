@@ -1,7 +1,7 @@
 <form>
     <div nxLayout="grid maxwidth">
 
-      <asymkey [pkeys]="privkeys" [signers]="signers" [(pkey)]="privkey" [(keyusage)]="keyusage" [(keyform)]="keyform" [(keyalg)]="keyalg"> </asymkey>
+      <asymkey [pkeys]="privkeys" [signers]="signers" [(pkey)]="privkey" [(keyusage)]="keyusage" [(keyform)]="keyform" [mode]="'g'" [(keyalg)]="keyalg"> </asymkey>
 
       <br>
       <br>
@@ -63,6 +63,13 @@
           <label>Token: </label>
         </div>
         <div nxCol="9"><textarea nxInput [(ngModel)]="tokenstring" name='tokenstring' rows=4 cols=80></textarea>
+        </div>
+      </div>
+      <div nxRow>
+        <div nxCol="1">
+          <label>Public key: </label>
+        </div>
+        <div nxCol="9"><textarea nxInput [(ngModel)]="pubkey" name='pubkeyout' rows=4 cols=80></textarea>
         </div>
       </div>
       <br>

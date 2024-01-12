@@ -1,7 +1,6 @@
 import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { KryptBase } from '../KryptBase';
-import { SignAlg } from '../../kryptutil-api-out/model/signAlg';
 import { TokenService } from '../../kryptutil-api-out/api/token.service';
 
 @Component({
@@ -15,14 +14,17 @@ export class JwtCheckComponent extends KryptBase implements OnInit {
   public reason: string|null;
   public pubkey: string;
   public pubkeys: string[];
+  public algo: string;
 
   constructor(protected tokenService: TokenService) {
     super();
+    this.algo = '';
     this.pubkey = '';
     this.reason = '';
     this.valresult = "unknown";
     this.pubkeys = [];
-    this.tokenService.listAlgs().subscribe( (ret: SignAlg[]) => { this.signers = ret; } );
+    this.signers = [{name: 'None', minLen: 0, description: 'not signed', usage:'c'}];
+    this.keyalg = 0;
   }
 
   ngOnInit() {
@@ -33,21 +35,29 @@ export class JwtCheckComponent extends KryptBase implements OnInit {
 
   }
   
+chg_token() {
+   var found = this.tokenstring.match(/([^.]+)[.]/);
+   console.log(found);
+   if (found === null) found = ['','?'];
+   console.log(atob(found[1]));
+   this.algo = JSON.parse(atob(found[1])).alg;
+}
+
 check_token() {
 
-  var alg = '';
+  var keysrc = '';
   var key = '';
   if (this.keyusage == 'name') {
-    alg = 'keystore';
+    keysrc = 'keystore';
     key = this.pubkey;
   } else {
-    alg = this.keyalg;
+    keysrc = 'bytes';
     key = super.decodeKey64(this.pubkey);
   } 
 
-  this.tokenService.checkJwt(this.tokenstring, key, alg, 'response').subscribe(
+  this.tokenService.checkJwt(this.tokenstring, key, keysrc, 'response').subscribe(
     (ret: any) => { 
-      console.log(ret.body.reason);
+      console.log(ret.body);
       this.valresult = ret.body.result;
       this.reason = ret.body.reason; 
     },

@@ -1,6 +1,15 @@
 input, textarea {
     border: 1px dotted #AAAAAA;
   }
+
+  input:-webkit-autofill:first-line {
+    font-size: var(--formfield-control-font-size);
+    line-height: var(--formfield-control-line-height);
+    font-weight: var(--formfield-control-font-weight);
+    letter-spacing: var(--formfield-control-letter-spacing);
+    font-family: var(--font-family);
+    color: #101010
+}
   
 
   button {

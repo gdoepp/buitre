@@ -3,6 +3,7 @@ import { BrowserModule} from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
+import {FilterPipe } from './filterpipe';
 
 import { TokenService } from './../kryptutil-api-out/api/token.service';
 import { PgpService } from './../kryptutil-api-out/api/pgp.service';
@@ -27,6 +28,7 @@ import { AsymkeyComponent } from './asymkey/asymkey.component';
     CodeSymComponent,
     CodeASymComponent,
     AsymkeyComponent,
+    FilterPipe,
   ],
   imports: [
     BrowserModule,
