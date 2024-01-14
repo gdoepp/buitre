@@ -33,7 +33,7 @@ export class EncryptService {
      let wl1 = doEnc1.parse(msg);    
      
      let wl2 : CryptoJS.lib.CipherParams;
-     wl2 = doAlgo.encrypt(wl1, pwd);
+     wl2 = doAlgo.encrypt(wl1, pwd); 
      
      if (enc2 == 'OpenSSL') {
        return doEnc2.stringify(wl2);
@@ -98,7 +98,7 @@ export class EncryptService {
   public listHash(): string[] {
     return ['MD5', 'SHA1', 'SHA224', 'SHA256', 'SHA3', 'SHA384', 'SHA512', 'RIPEMD160'];
   }
-
+  
   public listEnc(): string[] {
     return ['Utf8', 'Latin1', 'Base64', 'Hex', 'OpenSSL'];
   }

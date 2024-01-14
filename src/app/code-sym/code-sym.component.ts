@@ -77,6 +77,8 @@ encode() {
   let result: any;
   if  (this.hashings.indexOf(this.algorithm) >= 0) {
     result = this.encryptService.hash(this.inptext, this.decodeKey(this.key), this.algorithm, this.srcEncoding, this.destEncoding);
+  } else if (this.algorithm.startsWith("Hmac")) {
+    result = this.encryptService.hash(this.inptext, this.decodeKey(this.key), this.algorithm, this.srcEncoding, this.destEncoding);
   } else {
     result = this.encryptService.encrypt(this.inptext, this.decodeKey(this.key), this.algorithm, this.srcEncoding, this.destEncoding);
   } 
