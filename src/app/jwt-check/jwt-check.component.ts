@@ -40,7 +40,12 @@ chg_token() {
    console.log(found);
    if (found === null) found = ['','?'];
    console.log(atob(found[1]));
-   this.algo = JSON.parse(atob(found[1])).alg;
+   var header = JSON.parse(atob(found[1]));
+   if (header.curve) {
+    this.algo = header.alg + " curve " + header.curve;
+   } else {
+    this.algo = header.alg;
+   }
 }
 
 check_token() {
