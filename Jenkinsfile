@@ -2,6 +2,7 @@ pipeline {
     agent { 
         docker {
             image 'ngbuild' 
+            label 'agent'
             args '-v /mnt/storage/jenkins/dot-npm:/root/.npm -v/mnt/storage/jenkins-agent/dot-cache:/root/.cache -v /home/jenkins-agent/.ssh:/root/.ssh --privileged --user 0'
             }
     }
