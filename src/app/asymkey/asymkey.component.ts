@@ -1,5 +1,4 @@
 import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
-import { PgpService } from '../../kryptutil-api-out/api/pgp.service';
 import { SignAlg } from '../../kryptutil-api-out/model/signAlg';
 import { randomString } from '@aposin/ng-aquila/utils';
 
@@ -38,7 +37,7 @@ export class AsymkeyComponent {
   public set keyusage(s: string) { if (s !== this._keyusage) this.keyusageChange.emit(s); this._keyusage = s; }
   
 
-  constructor(private pgpService: PgpService) {
+  constructor() {
     this.pkeys = [];
     this.mode = "x";
     this.sid = randomString();
