@@ -18,9 +18,23 @@ pipeline {
                 sh 'npm install'
             }
         }
-        stage('build') {
+        stage('generate') {
             steps {
                 sh 'openapi-generator-cli generate -i ./openapi.yaml  -g typescript-angular -o src/kryptutil-api-out'
+            }
+        }
+        stage('test') {
+            steps {
+                sh 'Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &'
+                PID=$!
+                sh 'NO_COLOR=1 DISPLAY=":99.0" npm run test'
+                RC=$?
+                kill $PID || true
+                exit $(( RC ))
+            }
+        }
+        stage('build') {
+            steps {
                 sh 'ng build --base-href /kryptutil/'
                 sh 'tar zcf kryptutil.tgz ./public'
             }
