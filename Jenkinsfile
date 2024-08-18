@@ -25,12 +25,14 @@ pipeline {
         }
         stage('test') {
             steps {
-                sh 'Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &'
+                sh '''
+                Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
                 PID=$!
-                sh 'NO_COLOR=1 DISPLAY=":99.0" npm run test'
+                NO_COLOR=1 DISPLAY=":99.0" npm run test
                 RC=$?
                 kill $PID || true
                 exit $(( RC ))
+                '''
             }
         }
         stage('build') {
