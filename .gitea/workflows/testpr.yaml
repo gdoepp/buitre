@@ -29,9 +29,10 @@ jobs:
           openapi-generator-cli generate -i ./openapi.yaml  -g typescript-angular -o src/kryptutil-api-out
           Xvfb :99 -screen 0 1024x768x24 &
           PID=$!
+          trap "kill $PID" EXIT
           DISPLAY=:99.0 npm run test 
           RC1=$?
-          kill $PID
+          
           if [ $(( RC1 )) -gt 0 ]
           then
            curl -L -X POST -H "Accept: application/vnd.github+json" -H "Authorization: Bearer $GH_TOKEN" -H "X-GitHub-Api-Version: 2022-11-28" \
