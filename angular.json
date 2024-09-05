@@ -18,7 +18,8 @@
           "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": {
-              "base": "public"
+              "base": "public",
+              "browser": ""
             },
             "index": "src/index.html",
             "polyfills": [
@@ -40,7 +41,7 @@
             "sourceMap": true,
             "optimization": false,
             "namedChunks": true,
-            "browser": "src/main.ts"
+            "browser": "src/main.ts",
           },
           "configurations": {
             "production": {
