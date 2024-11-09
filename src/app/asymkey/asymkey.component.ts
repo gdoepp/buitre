@@ -42,5 +42,6 @@ export class AsymkeyComponent {
     this.mode = "x";
     this.sid = randomString();
     this.keyforms = [{name:'chars', description: 'plain chars'}, {name:'hex',description:'hex big integer'}, {name:'base64', description:'base64 or pkcs8 pem'}];
+    console.log('signlen: ', this.keyalg, this.signers[this.keyalg]);
   }
 }

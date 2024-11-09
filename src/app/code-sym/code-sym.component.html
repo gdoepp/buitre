@@ -16,7 +16,9 @@
       <div nxCol="2">
         <nx-formfield label="source encoding">
           <nx-dropdown [(ngModel)]="srcEncoding" name='srcenc'>
-            <nx-dropdown-item *ngFor="let item of encodings;" [value]="item"></nx-dropdown-item>
+          @for (item of encodings; track $index) {
+            <nx-dropdown-item  [value]="item"></nx-dropdown-item>
+          }
           </nx-dropdown>
         </nx-formfield>
       </div>
@@ -25,13 +27,19 @@
           <nx-dropdown [(ngModel)]="algorithm" name='alg'>
             <nx-dropdown-item [value]="'Plain'"></nx-dropdown-item>
             <nx-dropdown-group label="encryption">
-              <nx-dropdown-item *ngFor="let item of encryptings" [value]="item"></nx-dropdown-item>
+            @for (item of encryptings; track $index) {
+              <nx-dropdown-item  [value]="item"></nx-dropdown-item>
+            }
             </nx-dropdown-group>
             <nx-dropdown-group label="hashing">
-              <nx-dropdown-item *ngFor="let item of hashings" [value]="item"></nx-dropdown-item>
+            @for (item of hashings; track $index) {
+              <nx-dropdown-item [value]="item"></nx-dropdown-item>
+            }
             </nx-dropdown-group>
             <nx-dropdown-group label="HMAC">
-              <nx-dropdown-item *ngFor="let item of hashings" [value]="'Hmac'+item"></nx-dropdown-item>
+            @for (item of hashings; track $index) {
+              <nx-dropdown-item [value]="'Hmac'+item"></nx-dropdown-item>
+            }
             </nx-dropdown-group>
           </nx-dropdown>
         </nx-formfield>
@@ -39,7 +47,9 @@
       <div nxCol="2">
         <nx-formfield label="target encoding">
           <nx-dropdown [(ngModel)]="destEncoding" name='destenc'>
-            <nx-dropdown-item *ngFor="let item of encodings" [value]="item"></nx-dropdown-item>
+            @for (item of encodings; track $index) {
+            <nx-dropdown-item  [value]="item"></nx-dropdown-item>
+            }
           </nx-dropdown>
         </nx-formfield>
       </div>
@@ -47,33 +57,45 @@
     <br>
     <div nxRow>
       <div nxCol="5">
-    <nx-formfield label="{{encryptings.indexOf(algorithm) == -1 && !algorithm.startsWith('Hmac') ? 'No password
-      needed':'Password/Key: '}}"  *ngIf="encryptings.indexOf(algorithm) > -1 || algorithm.startsWith('Hmac')" >
-          <nx-dropdown nxInput name='ddenckeyf' [(ngModel)]="keyform" *ngIf="encryptings.indexOf(algorithm) > -1 || algorithm.startsWith('Hmac')">
-            <nx-dropdown-item name="'ddenckeyf_'+j" *ngFor="let item of keyforms; let j=index;" [value]="item.name" >{{item.description}}</nx-dropdown-item>
+    @if (encryptings.indexOf(algorithm) > -1 || algorithm.startsWith('Hmac')) {
+    <nx-formfield label="{{encryptings.indexOf(algorithm) == -1 && !algorithm.startsWith('Hmac') ? 'No password needed':'Password/Key: '}}" >
+          <nx-dropdown nxInput name='ddenckeyf' [(ngModel)]="keyform" >
+          @for (item of keyforms; track $index; let j=$index) {
+            <nx-dropdown-item name="'ddenckeyf_'+j" [value]="item.name" >{{item.description}}</nx-dropdown-item>
+          }
           </nx-dropdown>
-          <textarea nxInput cols="60" [(ngModel)]="key" name='key' *ngIf="encryptings.indexOf(algorithm) > -1 || algorithm.startsWith('Hmac')" ></textarea>
-        </nx-formfield>
+          <textarea nxInput cols="60" [(ngModel)]="key" name='key'  ></textarea>
+      </nx-formfield>
+    }
+    
   </div>
   </div>
 
     <br>
     <br>
-    <button *ngIf="encryptings.indexOf(algorithm) >= 0" type="button" nxButton="primary medium" (click)="encode()"
+    @if (encryptings.indexOf(algorithm) >= 0) {
+    <button  type="button" nxButton="primary medium" (click)="encode()"
       [disabled]="key.trim().length==0">
       Encrypt Text
     </button>
-    <button *ngIf="hashings.indexOf(algorithm) >= 0 || algorithm.startsWith('Hmac')" type="button"
+    }
+    @if (hashings.indexOf(algorithm) >= 0 || algorithm.startsWith('Hmac')) {
+    <button type="button"
       nxButton="primary medium" (click)="encode()"
       [disabled]="algorithm.startsWith('Hmac') && key.trim().length==0">
       Hash Text
     </button>
-    <button *ngIf="encryptings.indexOf(algorithm) >= 0" type="button" nxButton="primary medium" (click)="decode()"
+    }
+    @if (encryptings.indexOf(algorithm) >= 0) {
+    <button  type="button" nxButton="primary medium" (click)="decode()"
       [disabled]="key.trim().length==0">
       Decrypt Text
     </button>
-    <button *ngIf="algorithm == 'Plain'" type="button" nxButton="primary medium" (click)="encode()">Recode Text</button>
+    }
+    @if (algorithm == 'Plain') {
+    <button  type="button" nxButton="primary medium" (click)="encode()">Recode Text</button>
     &nbsp;&nbsp;<label>save to file: </label> <input type="text" nxInput name='fname' size="20" [(ngModel)]="fileName"/> 
+    }
     <br>
     <br>
     <div nxRow>
@@ -83,4 +105,5 @@
       </div>
     </div>
   </div>
+
 </form>

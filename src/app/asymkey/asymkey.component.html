@@ -1,31 +1,46 @@
 <nx-radio-group [name]="'kTG'+sid" [(ngModel)]="keyusage" >
     <nx-label class="nx-margin-bottom-m">Key is</nx-label>
     <div class="horizontal-buttons">
-      <nx-radio *ngIf="mode!='p'" value="bytes" name='pbytes' class="nx-margin-bottom-m">key as bytes&nbsp; </nx-radio>&nbsp;
+      @if (mode != 'p') {
+      <nx-radio value="bytes" name='pbytes' class="nx-margin-bottom-m">key as bytes&nbsp; </nx-radio>&nbsp;
+      }
       <nx-radio value="name" name='pname' class="nx-margin-left-s nx-margin-bottom-m">name of key in keystore</nx-radio>
     </div>
   </nx-radio-group>
   <br>
   <div nxRow>
-    <div nxCol="8" *ngIf="keyusage == 'bytes'">
-      <nx-formfield label="enter bytes" *ngIf="signers[keyalg].minLen>0 || mode=='c'">
-        <input nxInput type="text" size=64 [(ngModel)]="pkey" />
-        <nx-dropdown [(ngModel)]="keyform" >
-          <nx-dropdown-item *ngFor="let item of keyforms; let j=index;" [value]="item.name" >{{item.description}}</nx-dropdown-item>
-        </nx-dropdown>
-      </nx-formfield>
-      <nx-formfield *ngIf="signers.length>0 && mode=='g'" label="algorithm" width=20>
+    @if (keyusage == 'bytes') {
+    <div nxCol="8" >
+      @if (signers.length>0 && mode=='g') {
+      <nx-formfield label="algorithm" width=20>
         <nx-dropdown nxInput [(ngModel)]="keyalg" >
-          <nx-dropdown-item *ngFor="let item of signers|filter :'usage' : mode ; let j=index;" [value]="j" >{{item.description}}</nx-dropdown-item>
+          @for (item of signers | filter :'usage' : mode; track $index; let j=$index;) {
+          <nx-dropdown-item  [value]="j" >{{item.description}}</nx-dropdown-item>
+          }
         </nx-dropdown>
       </nx-formfield>
+    } 
+    @if (signers[keyalg].minLen>0 || mode=='c') {
+      <nx-formfield label="enter bytes as" >
+        <nx-dropdown [(ngModel)]="keyform" >
+          @for (item of keyforms; track $index; let j=$index) {
+          <nx-dropdown-item [value]="item.name" >{{item.description}}</nx-dropdown-item>
+          }
+        </nx-dropdown>
+      </nx-formfield>
+      <textarea nxInput type="text" rows="10" cols=80 [(ngModel)]="pkey" ></textarea>
+    }
     </div>
-    <div nxCol="4" *ngIf="keyusage == 'name'">
+  } @else if (keyusage == 'name') {
+    <div nxCol="4" >
       <nx-formfield label="select key name">
         <nx-dropdown [(ngModel)]="pkey" >
-          <nx-dropdown-item *ngFor="let item of pkeys; let j=index;" [value]="item" ></nx-dropdown-item>
+          @for (item of pkeys; track $index; let j = $index) {
+          <nx-dropdown-item [value]="item" ></nx-dropdown-item>
+          }
         </nx-dropdown>
       </nx-formfield>
     </div>
+  }
   </div>
 

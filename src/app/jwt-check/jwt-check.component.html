@@ -12,8 +12,10 @@
     </div>
     <br>
     <label>signed with: {{algo}}</label><br><br>
+    @if (algo !== 'none') {
     <asymkey [pkeys]="pubkeys" [signers]="signers" [(pkey)]="pubkey" [(keyusage)]="keyusage" [(keyform)]="keyform" [mode]="'c'" [(keyalg)]="keyalg"> </asymkey>
-    <br>
+  }
+  <br>
     <br>
     <button nxButton="primary small" type="button" (click)="check_token()">check token</button>
 
