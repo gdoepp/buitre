@@ -16,10 +16,8 @@
     </div>
     <br>
     <br>
-    <button  type="button" nxButton="primary medium" (click)="encode()"
-      >
-      Encrypt Text
-    </button>
+    <button  type="button" nxButton="primary medium" (click)="encode()">Encrypt Text</button>
+    <button  type="button" nxButton="primary medium" (click)="sign()">Sign Text</button>
     <br>
     <div nxRow>
       <div nxCol="1"><label>Encrypted text: </label></div>
@@ -30,18 +28,21 @@
     <br>
     <asymkey [pkeys]="pubKeys" [(pkey)]="pubKey" [(keyusage)]="keyusageD" [mode]="'p'" [(keyform)]="keyformD"> </asymkey>
     <br>
-    <button  type="button" nxButton="primary medium" (click)="decode()"
-      >
-      Decrypt Text
-    </button>
+    <button  type="button" nxButton="primary medium" (click)="decode()">Decrypt Text</button>
+    <button  type="button" nxButton="primary medium" (click)="verify()">Verify signature</button>
     &nbsp;&nbsp;<label>save to file: </label> <input type="text" nxInput name='fname' size="20" [(ngModel)]="fileName"/> 
     <br>
     <br>
     <div nxRow>
       <div nxCol="1"><label>Result: </label></div>
       <div nxCol="9">
+        @if (dectext != undefined) {
         <textarea nxInput [ngModel]="dectext" rows="10" cols=132 name='dectext'></textarea>
-      </div>
+        }
+        @if (verified != undefined) {
+          <nx-label [class]="verified">{{verified}}</nx-label>
+          }
+        </div>
     </div>
   </div>
 </form>

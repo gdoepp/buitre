@@ -5,7 +5,7 @@ info:
   license:
     name: Apache 2.0
     url: 'http://springdoc.org'
-  version: v0.0.5
+  version: v0.0.6
 servers:
   - url: 'https://www.gdoeppert.de/kryptutil'
   - url: 'http://localhost:28080/kryptutil'
@@ -160,6 +160,126 @@ paths:
             text/plain:
               schema:
                 type: string
+  '/pgp/signAsymFile/{key}':
+    post:
+      tags:
+        - pgp
+      operationId: signAsymFile
+      parameters:
+        - name: key
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+  '/pgp/signAsym/{key}':
+    post:
+      tags:
+        - pgp
+      operationId: signAsym
+      parameters:
+        - name: key
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          text/plain:
+            schema:
+              type: string
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+  '/pgp/verifyAsymFile/{key}/{signature}':
+    post:
+      tags:
+        - pgp
+      operationId: verifyAsymFile
+      parameters:
+        - name: key
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: signature
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ValidationResult'
+        '400':
+          description: NOK
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ValidationResult'
+  '/pgp/verifyAsym/{key}/{signature}':
+    post:
+      tags:
+        - pgp
+      operationId: verifyAsym
+      parameters:
+        - name: key
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: signature
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          text/plain:
+            schema:
+              type: string
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ValidationResult'
+        '400':
+          description: NOK
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ValidationResult'
   /pgp/decode64:
     post:
       tags:

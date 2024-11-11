@@ -14,7 +14,7 @@ export class CodeASymComponent extends KryptBase implements OnInit {
   public pubKey: string;
   public origtext: string;
   public enctext: string;
-  public dectext: string;
+  public dectext: string | undefined;
   public currentIndex: number;
   public keyalg: number;
   public keyusageE: string;
@@ -28,6 +28,7 @@ export class CodeASymComponent extends KryptBase implements OnInit {
   public fileName: string;
   public pubKeys: string[];
   public privKeys: string[];  
+  public verified: string | undefined;
 
   constructor(protected pgpService: PgpService) {
     super();
@@ -42,7 +43,8 @@ export class CodeASymComponent extends KryptBase implements OnInit {
     this.keyforms = [{name:'chars', description: 'plain chars'}, {name:'hex',description:'hex big integer'}, {name:'base64', description:'base64 or pkcs8 pem'}];
     this.origtext = '';
     this.enctext = '';
-    this.dectext = '';
+    this.dectext = undefined;
+    this.verified = undefined;
     this.currentIndex = 0;
     this.srcEncoding = 'Utf8';
     this.destEncoding = 'Utf8';
@@ -75,11 +77,23 @@ private decodeKey(key: string) {
 }
 
 decode() {
+  this.dectext = undefined;
+  this.verified = undefined;
   this.pgpService.decryptAsym(this.privKey, this.enctext).subscribe( v => this.dectext = v );
 }
 encode() {
   let result: any;  
   this.pgpService.encryptAsym(this.pubKey, this.origtext).subscribe( v => this.enctext = v );
+}
+sign() {
+  let result: any;  
+  this.pgpService.signAsym(this.pubKey, this.origtext).subscribe( v => this.enctext = v );
+}
+verify() {
+  let result: any;  
+  this.dectext = undefined;
+  this.verified = undefined;
+  this.pgpService.verifyAsym(this.pubKey, this.enctext, this.origtext).subscribe( v => this.verified = v.result ? (v.result == 'OK' ? 'valid':'invalid'): 'uncertain' );
 }
 
 hex2a(hexx: String) { 
