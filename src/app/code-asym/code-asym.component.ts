@@ -79,7 +79,10 @@ private decodeKey(key: string) {
 decode() {
   this.dectext = undefined;
   this.verified = undefined;
-  this.pgpService.decryptAsym(this.privKey, this.enctext).subscribe( v => this.dectext = v );
+  this.pgpService.decryptAsym(this.privKey, this.enctext).subscribe( {
+    next: (v) => this.dectext = v,
+  error: (e) => this.dectext = e.error }
+  );
 }
 encode() {
   let result: any;  
