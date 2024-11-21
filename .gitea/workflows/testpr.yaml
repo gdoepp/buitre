@@ -32,8 +32,11 @@ jobs:
           trap "kill $PID" EXIT
           DISPLAY=:99.0 npm run test 
           RC1=$?
+          npx playwright install
+          DISPLAY=:99.0 npx playwright test --quiet --reporter null
+          RC2=$?
           
-          if [ $(( RC1 )) -gt 0 ]
+          if [ $(( RC1+RC2 )) -gt 0 ]
           then
            curl -L -X POST -H "Accept: application/vnd.github+json" -H "Authorization: Bearer $GH_TOKEN" -H "X-GitHub-Api-Version: 2022-11-28" \
              https://www.gdoeppert.de/mygitea/repos/${{github.action_repository}}/statuses/${{github.sha}} \
