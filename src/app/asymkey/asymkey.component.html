@@ -13,18 +13,18 @@
     <div nxCol="8" >
       @if (signers.length>0 && mode=='g') {
       <nx-formfield label="algorithm" width=20>
-        <nx-dropdown nxInput [(ngModel)]="keyalg" >
+        <nx-dropdown data-testid='options' nxInput [(ngModel)]="keyalg" >
           @for (item of signers | filter :'usage' : mode; track $index; let j=$index;) {
-          <nx-dropdown-item  [value]="j" >{{item.description}}</nx-dropdown-item>
+          <nx-dropdown-item attr.data-testid="algo_{{j}}" [value]="j" >{{item.description}}</nx-dropdown-item>
           }
         </nx-dropdown>
       </nx-formfield>
     } 
     @if (signers[keyalg].minLen>0 || mode=='c') {
       <nx-formfield label="enter bytes as" >
-        <nx-dropdown [(ngModel)]="keyform" >
+        <nx-dropdown data-testid='options' [(ngModel)]="keyform" >
           @for (item of keyforms; track $index; let j=$index) {
-          <nx-dropdown-item [value]="item.name" >{{item.description}}</nx-dropdown-item>
+          <nx-dropdown-item attr.data-testid="keyform_{{j}}" [value]="item.name" >{{item.description}}</nx-dropdown-item>
           }
         </nx-dropdown>
       </nx-formfield>
@@ -34,11 +34,15 @@
   } @else if (keyusage == 'name') {
     <div nxCol="4" >
       <nx-formfield label="select key name">
-        <nx-dropdown [(ngModel)]="pkey" >
+        <div data-testid='options'>
+        <nx-dropdown  [(ngModel)]="pkey" >
           @for (item of pkeys; track $index; let j = $index) {
-          <nx-dropdown-item [value]="item" ></nx-dropdown-item>
+            <div data-testid='option'>
+              <nx-dropdown-item attr.data-testid="keyname_{{j}}" [value]="item" ></nx-dropdown-item>
+            </div>
           }
         </nx-dropdown>
+      </div>
       </nx-formfield>
     </div>
   }

@@ -3,9 +3,9 @@
 <br>
 <form>
   <div nxLayout="grid">
-
+    <div data-testid="gpg-asym-key-1">
       <asymkey [pkeys]="privKeys" [(pkey)]="privKey" [(keyusage)]="keyusageE" [mode]="'p'" [(keyform)]="keyformE"> </asymkey>
-
+    </div>
     <div nxRow>
       <div nxCol="1">
         <label>Clear text: </label>
@@ -26,7 +26,9 @@
       </div>
     </div>
     <br>
-    <asymkey [pkeys]="pubKeys" [(pkey)]="pubKey" [(keyusage)]="keyusageD" [mode]="'p'" [(keyform)]="keyformD"> </asymkey>
+    <div data-testid="gpg-asym-key-2">
+    <asymkey  [pkeys]="pubKeys" [(pkey)]="pubKey" [(keyusage)]="keyusageD" [mode]="'p'" [(keyform)]="keyformD"> </asymkey>
+  </div>
     <br>
     <button  type="button" nxButton="primary medium" (click)="decode()">Decrypt Text</button>
     <button  type="button" nxButton="primary medium" (click)="verify()">Verify signature</button>
@@ -40,7 +42,7 @@
         <textarea nxInput [ngModel]="dectext" rows="10" cols=132 name='dectext'></textarea>
         }
         @if (verified != undefined) {
-          <nx-label [class]="verified">{{verified}}</nx-label>
+          <nx-label data-testid="gpg-asym-verify" [class]="verified">{{verified}}</nx-label>
           }
         </div>
     </div>

@@ -29,9 +29,11 @@ pipeline {
                 Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
                 PID=$!
                 NO_COLOR=1 DISPLAY=":99.0" npm run test
-                RC=$?
+                RC1=$?
+                DISPLAY=":99.0" npx playwright test --quiet --reporter null
+                RC2=$?
                 kill $PID || true
-                exit $(( RC ))
+                exit $(( RC1+RC2 ))
                 '''
             }
         }
