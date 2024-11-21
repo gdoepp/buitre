@@ -11,7 +11,7 @@ test('test', async ({ page }) => {
   await page.getByTestId('gpg-asym-key-2').getByLabel('select key name').locator('div').first().click();
   await page.locator('div.cdk-overlay-container').getByTestId('keyname_0').click();
   await page.getByRole('button', { name: 'Decrypt Text' }).click();
-  await expect(page.locator('textarea[name="dectext"]')).toHaveValue('Dies ist ein schöner kleiner Beispieltext,');
+  await expect(page.locator('textarea[name="dectext"]')).toHaveValue('Dies ist ein schöner kleiner Beispieltext.');
   await page.getByRole('button', { name: 'Sign Text' }).click();
   await page.getByRole('button', { name: 'Verify signature' }).click();
   await expect(page.getByTestId('gpg-asym-verify')).toContainText('valid');
