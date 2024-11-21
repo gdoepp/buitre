@@ -25,14 +25,13 @@ pipeline {
         }
         stage('test') {
             steps {
+              wrap([$class: 'Xvfb']) {
                 sh '''
-                Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
-                PID=$!
-                NO_COLOR=1 DISPLAY=":99.0" npm run test
+                NO_COLOR=1 npm run test
                 RC=$?
-                kill $PID || true
                 exit $(( RC ))
                 '''
+              }
             }
         }
         stage('build') {
