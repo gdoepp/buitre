@@ -15,7 +15,10 @@ pipeline {
         }
         stage('update') {
             steps {
-                sh 'npm install'
+                sh '''
+                npm install
+                npx playwright install
+                '''
             }
         }
         stage('generate') {
@@ -29,7 +32,6 @@ pipeline {
                 sh '''
                 NO_COLOR=1 npm run test
                 RC1=$?
-                npx playwright install
                 npx playwright test --quiet --reporter null
                 RC2=$?
                 exit $(( RC1+RC2 ))
