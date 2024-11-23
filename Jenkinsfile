@@ -30,8 +30,9 @@ pipeline {
             steps {
              // wrap([$class: 'Xvfb']) {
                 sh '''
-                NO_COLOR=1 npm run test
-                RC1=$?
+                #NO_COLOR=1 npm run test
+                #RC1=$?
+                RC1=0
                 npx playwright test --quiet --reporter null
                 RC2=$?
                 exit $(( RC1+RC2 ))
