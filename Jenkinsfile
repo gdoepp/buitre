@@ -28,7 +28,7 @@ pipeline {
         }
         stage('test') {
             steps {
-              wrap([$class: 'Xvfb']) {
+             // wrap([$class: 'Xvfb']) {
                 sh '''
                 NO_COLOR=1 npm run test
                 RC1=$?
@@ -36,7 +36,7 @@ pipeline {
                 RC2=$?
                 exit $(( RC1+RC2 ))
                 '''
-              }
+//              }
             }
         }
         stage('build') {
