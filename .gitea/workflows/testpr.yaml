@@ -34,7 +34,7 @@ jobs:
           trap "kill $PID" EXIT
           DISPLAY=:99.0 npm run test 
           RC1=$?
-          DISPLAY=:99.0 npx playwright test --quiet --reporter null
+          npx playwright test --quiet --reporter null
           RC2=$?
           
           if [ $(( RC1+RC2 )) -gt 0 ]
