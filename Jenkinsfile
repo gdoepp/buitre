@@ -28,16 +28,18 @@ pipeline {
         }
         stage('test') {
             steps {
-             // wrap([$class: 'Xvfb']) {
+              wrap([$class: 'Xvfb']) {
                 sh '''
-                #NO_COLOR=1 npm run test
-                #RC1=$?
-                RC1=0
+                NO_COLOR=1 npm run test
+                RC1=$?
+                exit $RC1
+                '''
+              }
+              sh '''
                 npx playwright test --quiet --reporter null
                 RC2=$?
-                exit $(( RC1+RC2 ))
-                '''
-//              }
+                exit $(( RC2 ))
+                '''              
             }
         }
         stage('build') {
