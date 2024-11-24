@@ -29,10 +29,7 @@ jobs:
          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           openapi-generator-cli generate -i ./openapi.yaml  -g typescript-angular -o src/kryptutil-api-out
-          Xvfb :99 -screen 0 1024x768x24 &
-          PID=$!
-          trap "kill $PID" EXIT
-          DISPLAY=:99.0 npm run test 
+          xvfb-run npm run test 
           RC1=$?
           npx playwright test --quiet --reporter null
           RC2=$?
