@@ -1,4 +1,4 @@
-
+<h3>This page uses only local processing and does not send anything to the network</h3>
 <br>
 <form>
   <div nxLayout="grid">
@@ -7,6 +7,7 @@
         <label>Input: </label>
       </div>
       <div nxCol="9">
+        <input type="file" (change)="onFileSelected($event)" />
         <textarea nxAlign='top' nxInput [(ngModel)]="inptext" rows=10 cols=132 name='inptxt'></textarea>
       </div>
     </div>
@@ -77,25 +78,25 @@
     <button  type="button" nxButton="primary medium" (click)="encode()"
       [disabled]="key.trim().length==0">
       Encrypt Text
-    </button>
+    </button>&nbsp;&nbsp;
     }
     @if (hashings.indexOf(algorithm) >= 0 || algorithm.startsWith('Hmac')) {
     <button type="button"
       nxButton="primary medium" (click)="encode()"
       [disabled]="algorithm.startsWith('Hmac') && key.trim().length==0">
       Hash Text
-    </button>
+    </button>&nbsp;&nbsp;
     }
     @if (encryptings.indexOf(algorithm) >= 0) {
     <button  type="button" nxButton="primary medium" (click)="decode()"
       [disabled]="key.trim().length==0">
       Decrypt Text
-    </button>
+    </button>&nbsp;&nbsp;
     }
     @if (algorithm == 'Plain') {
-    <button  type="button" nxButton="primary medium" (click)="encode()">Recode Text</button>
-    &nbsp;&nbsp;<label>save to file: </label> <input type="text" nxInput name='fname' size="20" [(ngModel)]="fileName"/> 
+    <button  type="button" nxButton="primary medium" (click)="encode()">Recode Text</button>&nbsp;&nbsp;
     }
+    &nbsp;&nbsp;<label>save to file:</label>&nbsp;&nbsp;<input type="text" nxInput name='fname' size="20" [(ngModel)]="fileName"/> 
     <br>
     <br>
     <div nxRow>

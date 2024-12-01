@@ -63,6 +63,32 @@ private decodeKey(key: string) {
   return key;
 }
 
+onFileSelected(event:Event) {
+  const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        if (reader.result != null)   {
+          let binaryString = '';
+          if (typeof reader.result === 'string') {
+            binaryString = reader.result;
+          } else {
+            const byteArray = new Uint8Array(reader.result);    
+            // Create a binary string from the byte array
+            for (let i = 0; i < byteArray.byteLength; i++) {
+                binaryString += String.fromCharCode(byteArray[i]);
+            }          
+          }
+          // Convert the binary string to a Base64 string
+          this.inptext = btoa(binaryString);
+      }
+    }
+    reader.readAsArrayBuffer(file);
+  }
+}
+
 decode() {
 
   this.outtext = this.encryptService.decrypt(this.inptext, this.decodeKey(this.key), this.algorithm, this.srcEncoding, this.destEncoding);
