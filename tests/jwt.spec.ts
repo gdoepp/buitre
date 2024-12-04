@@ -11,8 +11,13 @@ test('test', async ({ page }) => {
   await page.locator('input[name="cl2"]').press('Tab');
   await page.locator('input[name="cl3"]').fill('myca');
   await page.locator('input[name="cl3"]').press('Tab');
-  await page.locator('input[name="cl4"]').fill('2024-11-13');
-  await page.locator('input[name="cl5"]').fill('2024-11-29');
+  const today = new Date();
+  const nbf = new Date(today);
+  nbf.setDate(today.getDate() - 5);
+  const exp = new Date(today);
+  exp.setDate(today.getDate() + 5);
+  await page.locator('input[name="cl4"]').fill(nbf.toISOString().substring(0,10));
+  await page.locator('input[name="cl5"]').fill(exp.toISOString().substring(0,10));
   await page.locator('input[name="cln"]').click();
   await page.locator('input[name="cln"]').fill('testclaim');
   await page.getByRole('button', { name: 'add claim' }).click();
@@ -24,17 +29,11 @@ test('test', async ({ page }) => {
   await page.locator('textarea[name="tokenstring"]').press('ControlOrMeta+c');
   await page.getByRole('tab', { name: 'Check Token' }).click();
   await page.locator('textarea[name="tokenstring"]').click();
-  await page.locator('textarea[name="tokenstring"]').fill('eyJhbGciOiJSUzUxMiJ9.eyJzdWIiOiJ0ZXN0dXNlciIsImF1ZCI6WyJ0ZXN0YXBwIl0sImV4cCI6MTczMjgzODQwMCwiaWF0IjoxNzMxODQxNjUwLCJpc3MiOiJteWNhIiwibmJmIjoxNzMxNDU2MDAwLCJ0ZXN0Y2xhaW0iOiJ0ZXN0Y29udGVudCIsImp0aSI6IjZhODU2Zjg2LTg1NzItNDg4OS04ZTc4LWEzZmIzM2Y4ZWRhZiJ9.SMEGqiSmWWlW4JU2izXp1jryOu9VK5a1BoqNwaSs2y_Z9tZTByoLdaF0-GZgbpmzLzYWyHoH7QnWZlJRlYvprOdvl8KsulKHHDMbP86uhrVW5pnXKUXBamDEPEYjjbtSZu78GcoW9dxEzwto_VVw3SOvY42VoUFrT13cU1TYiu1lknKcOun-X1ehOgj8XI9bxrncx53iPjMyPEVi0iw75rTFA3zEoeFonLV8x1kXIz-zuKTVJhwuycZYzV0agKy7tdPy7OSWkMf5-pVjvXUKie2TGuZSvDIxHmZZqs4MRRQ3_ESgZDeoslMNXAcKfzC3fkxOwu7GBHs5uRvJmp5tt7JlENuMDaUMl3ZX5RYRQ4CucP4LNrXu4SAh2RZ-U8HlXU6JmzmMbxFjQ480ULKeZaBIZBS3PFJAn-byZtJu80W0PkSj44n1x9OZIezNnE3oBmCHUSzfZy_ggBf8PA9njY1AnoMy3KugU5CX6HK_GQxcwjpXyoaEUfGpOIzf4EIX2Dr4EZcD1sJ0Lpqe2c_C5GSqqdpOK8JTGPuo-tI1fnKRZbvhXmAb_7fiS80UEHEWcvhb-hw91dL5ng951DI248TpFYOEyEWcDrwawLZZEvEHySZdl4yJgipjpuF-Rr3z1pXEpEeQFGdM1kYtdneZZULFLhrtcHKKjcfNY3mP3xc');
+  await page.locator('textarea[name="tokenstring"]').press('ControlOrMeta+v');
   await page.getByLabel('select key name', { exact: true }).locator('div').first().click();
   await page.getByText('default_rsa').click();
   await page.getByRole('button', { name: 'check token' }).click();
-  await page.locator('textarea[name="reason"]').click({
-    button: 'right'
-  });
-  await page.locator('textarea[name="reason"]').click();
-  await page.locator('textarea[name="reason"]').click();
-  await page.locator('textarea[name="reason"]').click({
-    button: 'right'
-  });
-  //await expect(page.locator('textarea[name="reason"]')).toContainText('{sub=testuser, aud=[testapp], exp=1732838400, iat=1731841650, iss=myca, nbf=1731456000, testclaim=testcontent,');
-});
+  await expect(page.locator('textarea[name="reason"]')).toHaveValue(/\{sub=testuser, aud=\[testapp\], exp=[0-9]+, iat=[0-9]+, iss=myca, nbf=[0-9]+, testclaim=testcontent, jti=[-0-9a-f]+\}/);
+  await expect(page.getByText('valid')).toBeVisible();
+  await expect(page.getByText('invalid')).not.toBeVisible();
+});                                                                                                      
