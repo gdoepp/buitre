@@ -4,9 +4,10 @@ import { KryptBase } from '../KryptBase';
 import { TokenService } from '../../kryptutil-api-out/api/token.service';
 
 @Component({
-  selector: 'jwt-check',
-  templateUrl: './jwt-check.component.html',
-  styleUrls: ['./jwt-check.component.css']
+    selector: 'jwt-check',
+    templateUrl: './jwt-check.component.html',
+    styleUrls: ['./jwt-check.component.css'],
+    standalone: false
 })
 export class JwtCheckComponent extends KryptBase implements OnInit {
 

@@ -3,9 +3,10 @@ import { PgpService } from '../../kryptutil-api-out/api/pgp.service';
 import { KryptBase } from '../KryptBase';
 
 @Component({
-  selector: 'code-asym',
-  templateUrl: './code-asym.component.html',
-  styleUrls: ['./code-asym.component.css']
+    selector: 'code-asym',
+    templateUrl: './code-asym.component.html',
+    styleUrls: ['./code-asym.component.css'],
+    standalone: false
 })
 export class CodeASymComponent extends KryptBase implements OnInit {
 

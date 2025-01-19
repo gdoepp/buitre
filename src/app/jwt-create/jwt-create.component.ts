@@ -7,9 +7,10 @@ import { TokenService } from '../../kryptutil-api-out/api/token.service';
 import { RequestedClaim } from '../../kryptutil-api-out/model/requestedClaim';
 
 @Component({
-  selector: 'jwt-create',
-  templateUrl: './jwt-create.component.html',
-  styleUrls: ['./jwt-create.component.css']
+    selector: 'jwt-create',
+    templateUrl: './jwt-create.component.html',
+    styleUrls: ['./jwt-create.component.css'],
+    standalone: false
 })
 export class JwtCreateComponent extends KryptBase implements OnInit {
 

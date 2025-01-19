@@ -3,9 +3,10 @@ import { SignAlg } from '../../kryptutil-api-out/model/signAlg';
 import { randomString } from '@aposin/ng-aquila/utils';
 
 @Component({
-  selector: 'asymkey',
-  templateUrl: './asymkey.component.html',
-  styleUrls: ['./asymkey.component.css']
+    selector: 'asymkey',
+    templateUrl: './asymkey.component.html',
+    styleUrls: ['./asymkey.component.css'],
+    standalone: false
 })
 export class AsymkeyComponent {
 

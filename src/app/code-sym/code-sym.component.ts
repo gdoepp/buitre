@@ -6,9 +6,10 @@ import * as FileSaver from 'file-saver';
 
 
 @Component({
-  selector: 'code-sym',
-  templateUrl: './code-sym.component.html',
-  styleUrls: ['./code-sym.component.css']
+    selector: 'code-sym',
+    templateUrl: './code-sym.component.html',
+    styleUrls: ['./code-sym.component.css'],
+    standalone: false
 })
 export class CodeSymComponent implements OnInit {
 
