@@ -103,7 +103,7 @@ verify() {
   this.verified = undefined;
   this.pgpService.verifyAsym(this.pubKey, this.enctext, this.origtext).subscribe(
     { next: v => this.verified = v.result ? (v.result == 'OK' ? 'valid':'invalid'): 'uncertain',
-      error: e => { this.verified = e.error.result; this.dectext = e.error.reason }
+      error: e => { this.verified = 'error'; this.dectext = e.error }
     });
 }
 
