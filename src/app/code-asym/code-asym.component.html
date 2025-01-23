@@ -20,9 +20,9 @@
     <button  type="button" nxButton="primary medium" (click)="sign()">Sign Text</button>
     <br>
     <div nxRow>
-      <div nxCol="1"><label>Encrypted text: </label></div>
+      <div nxCol="1"><label>Signature or<br>Encrypted Text: </label></div>
       <div nxCol="9">
-        <textarea nxInput [ngModel]="enctext" rows="10" cols=132 name='enctext'></textarea>
+        <textarea nxInput [(ngModel)]="enctext" rows="10" cols=132 name='enctext' ></textarea>
       </div>
     </div>
     <br>

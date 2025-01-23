@@ -37,7 +37,12 @@ export class JwtCreateComponent extends KryptBase implements OnInit {
       this.clname = '';
       this.algorithm = 'Plain';
       this.privkeys = [];
-      this.tokenService.listAlgs().subscribe( (ret: SignAlg[]) => { this.signers = ret; } );
+      
+      this.tokenService.listAlgs().subscribe(
+        {
+          next: (ret: SignAlg[]) => { this.signers = ret; console.log('signers: :', ret)},
+          error: e => this.tokenstring = e.error
+        });
     }
   
     ngOnInit() {
@@ -45,7 +50,10 @@ export class JwtCreateComponent extends KryptBase implements OnInit {
       this.myClaims = [];
   
       this.tokenService.listPrivkeys().subscribe(
-        (ret: string[]) => { this.privkeys = ret;  }
+        {
+          next: ret => this.privkeys = ret,
+          error: e => this.tokenstring = e.error
+        }
       );
     
     }

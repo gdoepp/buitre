@@ -82,22 +82,29 @@ decode() {
   this.verified = undefined;
   this.pgpService.decryptAsym(this.privKey, this.enctext).subscribe( {
     next: (v) => this.dectext = v,
-  error: (e) => this.dectext = e.error }
+    error: (e) => this.dectext = e.error }
   );
 }
 encode() {
-  let result: any;  
-  this.pgpService.encryptAsym(this.pubKey, this.origtext).subscribe( v => this.enctext = v );
+  this.pgpService.encryptAsym(this.pubKey, this.origtext).subscribe( {
+    next: (v) => this.enctext = v ,
+    error: (e) => this.enctext = e.error
+   } );
 }
 sign() {
-  let result: any;  
-  this.pgpService.signAsym(this.pubKey, this.origtext).subscribe( v => this.enctext = v );
+  this.pgpService.signAsym(this.pubKey, this.origtext).subscribe( {
+    next: (v) => { this.enctext = v; console.log(v); },
+    error: (e) => this.enctext = e.error
+  }
+  );
 }
 verify() {
-  let result: any;  
   this.dectext = undefined;
   this.verified = undefined;
-  this.pgpService.verifyAsym(this.pubKey, this.enctext, this.origtext).subscribe( v => this.verified = v.result ? (v.result == 'OK' ? 'valid':'invalid'): 'uncertain' );
+  this.pgpService.verifyAsym(this.pubKey, this.enctext, this.origtext).subscribe(
+    { next: v => this.verified = v.result ? (v.result == 'OK' ? 'valid':'invalid'): 'uncertain',
+      error: e => { this.verified = e.error.result; this.dectext = e.error.reason }
+    });
 }
 
 hex2a(hexx: String) { 

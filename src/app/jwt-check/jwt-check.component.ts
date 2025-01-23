@@ -31,7 +31,10 @@ export class JwtCheckComponent extends KryptBase implements OnInit {
   ngOnInit() {
 
     this.tokenService.listPubkeys().subscribe(
-      (ret: string[]) => { this.pubkeys = ret; }
+      {
+        next: ret => this.pubkeys = ret,
+        error: e => this.tokenstring = e.error
+      }
     );
 
   }
@@ -62,13 +65,16 @@ check_token() {
   } 
 
   this.tokenService.checkJwt(this.tokenstring, key, keysrc, 'response').subscribe(
-    (ret: any) => { 
-      console.log(ret.body);
-      this.valresult = ret.body.result;
-      this.reason = ret.body.reason; 
-    },
-    (err: any) => { console.log('error: ' + JSON.stringify(err)); this.valresult = err.error.result; this.reason = err.error.reason; },
-    () => { }
+    {
+      next:(ret: any) => { 
+        console.log(ret.body);
+        this.valresult = ret.body.result;
+        this.reason = ret.body.reason; 
+      },
+      error:  (err: any) => { 
+        console.log('error: ' + JSON.stringify(err)); this.valresult = err.error.result; this.reason = err.error.reason; 
+      }
+    }
   );
 }
 
