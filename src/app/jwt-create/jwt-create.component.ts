@@ -51,11 +51,17 @@ export class JwtCreateComponent extends KryptBase implements OnInit {
   
       this.tokenService.listPrivkeys().subscribe(
         {
-          next: ret => this.privkeys = ret,
+          next: ret => { this.privkeys = ret; this.privkey = this.privkeys[0];},
           error: e => this.tokenstring = e.error
         }
       );
-    
+
+
+      var now = new Date()
+      this.req.notBefore = now.toISOString().substring(0,10);
+      this.req.expiration = (new Date(now.getTime()+31*86400*1000)).toISOString().substring(0,10);
+
+      console.log(this.req.notBefore);
     }
   
     addClaim() {
@@ -65,7 +71,7 @@ export class JwtCreateComponent extends KryptBase implements OnInit {
   
     create_token() {
   
-      let tokenReq: TokenRequest = this.req;
+      let tokenReq: TokenRequest = {...this.req};
       console.log(this);
   
       if (this.keyusage == 'name') {
@@ -96,7 +102,7 @@ export class JwtCreateComponent extends KryptBase implements OnInit {
     this.tokenService.create(tokenReq).subscribe( 
       {
         next: (ret: any ) => { console.log('next: ' + JSON.stringify(ret)); this.tokenstring = ret.token; this.pubkey = ret.pubkey; }, 
-        error: (err: any) => { console.log('error: ' + JSON.stringify(err)); this.tokenstring = err.error.error + "\n" + err.message;}
+        error: (err: any) => { console.log('error: ' + JSON.stringify(err)); this.tokenstring = err.error.error; }
       }
       );
   
