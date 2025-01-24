@@ -8,16 +8,13 @@ info:
   version: v0.1.1
 servers:
   - url: 'https://www.gdoeppert.de/kryptutil'
+  - url: 'https://cloud.gdoeppert.de/kryptutil'
   - url: 'http://localhost:28080/kryptutil'
 x-cors:
-  locations:
+  origins:
   - http://localhost:4200
   - https://www.gdoeppert.de
   - https://cloud.gdoeppert.de
-  methods: 
-  - GET
-  - OPTIONS
-  - POST
   headers:
   - "Content-Type"
   
@@ -242,7 +239,6 @@ paths:
           required: true
           schema:
             type: string
-      x-auth: CLIENT_CERT
       requestBody:
         content:
           text/plain:
