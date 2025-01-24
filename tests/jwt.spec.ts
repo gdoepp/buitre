@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test('test', async ({ page }) => {
   await page.goto('/index.html');
   await page.getByLabel('select key name', { exact: true }).locator('div').first().click();
-  await page.getByText('default_rsa').click();
+  await page.getByTestId('option').getByText('default_rsa').click();
   await page.locator('input[name="cl1"]').click();
   await page.locator('input[name="cl1"]').fill('testuser');
   await page.locator('input[name="cl1"]').press('Tab');
