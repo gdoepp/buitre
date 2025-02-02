@@ -1,6 +1,19 @@
 import { Injectable } from '@angular/core';
 import * as CryptoJS from 'crypto-js';
 
+var id = {
+  parse: function (x: any) { return x } ,
+  stringify: function (x: any) {
+    const byteArray = new Uint8Array(x.words.length * 4); 
+    const dataView = new DataView(byteArray.buffer);
+
+    for (let i = 0; i < x.words.length; i++) {
+        dataView.setInt32(i * 4, x.words[i], false);
+    }
+    return byteArray;
+  } 
+};
+
 @Injectable({
   providedIn: 'root'
 })
@@ -12,7 +25,7 @@ export class EncryptService {
   constructor() { 
   
     this.encoders = { Utf8: CryptoJS.enc.Utf8, Base64: CryptoJS.enc.Base64, Hex: CryptoJS.enc.Hex, Latin1: CryptoJS.enc.Latin1,
-                      OpenSSL: CryptoJS.format.OpenSSL };
+                      OpenSSL: CryptoJS.format.OpenSSL, Ident : id };
 
     this.algos = { Plain: new noenc(),
                   AES: CryptoJS.AES, DES: CryptoJS.DES, TripleDES: CryptoJS.TripleDES, 
@@ -81,7 +94,8 @@ export class EncryptService {
       }
       
       let wl2 = doAlgo.decrypt(wl1, pwd);
-      if (wl2.sigBytes < 0) return 'error in decrypted text';
+      if (wl2.sigBytes < 0) return 'error in decrypted text'; 
+      
       let result = doEnc2.stringify(wl2);
       return result;
     } catch(e) {
@@ -100,7 +114,7 @@ export class EncryptService {
   }
   
   public listEnc(): string[] {
-    return ['Utf8', 'Latin1', 'Base64', 'Hex', 'OpenSSL'];
+    return ['Utf8', 'Latin1', 'Base64', 'Hex', 'OpenSSL', 'Ident'];
   }
 
 }

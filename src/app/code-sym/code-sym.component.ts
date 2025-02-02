@@ -30,6 +30,7 @@ export class CodeSymComponent implements OnInit {
   public destEncoding: string;
   public algorithm: string;
   public fileName: string;
+  public convertSrc: boolean;
 
   constructor(protected encryptService: EncryptService) {
     this.reason = '';
@@ -48,6 +49,7 @@ export class CodeSymComponent implements OnInit {
     this.encryptings = encryptService.listCrypt();
     this.hashings = encryptService.listHash();
     this.fileName = '';
+    this.convertSrc = false;
   }
 
   ngOnInit() {
@@ -83,7 +85,11 @@ onFileSelected(event:Event) {
             }          
           }
           // Convert the binary string to a Base64 string
-          this.inptext = btoa(binaryString);
+          if (this.convertSrc) {
+            this.inptext = btoa(binaryString);
+          } else {
+            this.inptext = binaryString;
+          }
       }
     }
     reader.readAsArrayBuffer(file);
@@ -92,14 +98,17 @@ onFileSelected(event:Event) {
 
 decode() {
 
-  this.outtext = this.encryptService.decrypt(this.inptext, this.decodeKey(this.key), this.algorithm, this.srcEncoding, this.destEncoding);
+  var cleartext = this.encryptService.decrypt(this.inptext, this.decodeKey(this.key), this.algorithm, this.srcEncoding, this.destEncoding);
   if (this.fileName) {
-    const blob = new Blob([this.outtext], {type: 'text/plain'});
+    const blob = new Blob([cleartext], {type: 'application/octet-stream'});
     FileSaver.saveAs(blob, this.fileName);
+    this.outtext = 'File saved to ' + this.fileName;
+  } else {
+    this.outtext = cleartext;
   }
   return;
-
 }
+
 encode() {
   let result: any;
   if  (this.hashings.indexOf(this.algorithm) >= 0) {
@@ -109,10 +118,12 @@ encode() {
   } else {
     result = this.encryptService.encrypt(this.inptext, this.decodeKey(this.key), this.algorithm, this.srcEncoding, this.destEncoding);
   } 
-  this.outtext = result;
   if (this.fileName) {
     const blob = new Blob([result], {type: 'application/octet-stream'});
     FileSaver.saveAs(blob, this.fileName);
+    this.outtext = 'File saved to ' + this.fileName;
+  } else {
+    this.outtext = result;
   }
 }
 

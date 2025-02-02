@@ -7,7 +7,7 @@
         <label>Input: </label>
       </div>
       <div nxCol="9">
-        <input type="file" (change)="onFileSelected($event)" />
+        <nx-checkbox [(checked)]="convertSrc" >toBase64</nx-checkbox><input type="file" (change)="onFileSelected($event)" />
         <textarea nxAlign='top' nxInput [(ngModel)]="inptext" rows=10 cols=132 name='inptxt'></textarea>
       </div>
     </div>

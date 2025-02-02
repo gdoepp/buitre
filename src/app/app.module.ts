@@ -19,6 +19,7 @@ import { JwtCheckComponent } from './jwt-check/jwt-check.component';
 import { CodeSymComponent } from './code-sym/code-sym.component';
 import { CodeASymComponent } from './code-asym/code-asym.component';
 import { AsymkeyComponent } from './asymkey/asymkey.component'; 
+import { NxCheckboxModule } from '@aposin/ng-aquila/checkbox';
 
 @NgModule({ declarations: [
         AppComponent,
@@ -35,6 +36,7 @@ import { AsymkeyComponent } from './asymkey/asymkey.component';
         NxExpertModule,
         NxTabsModule,
         NxRadioModule,
+        NxCheckboxModule,
         NxFormfieldModule,
         NxGridModule,
         NxDropdownModule], providers: [TokenService, PgpService, provideHttpClient(withInterceptorsFromDi())] })

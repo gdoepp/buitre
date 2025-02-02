@@ -8,7 +8,7 @@ test('test', async ({ page }) => {
   await page.locator('#nx-dropdown-rendered-0').click();
   await page.locator('#nx-dropdown-item-1').getByText('Utf8').click();
   await page.getByLabel('target encoding', { exact: true }).locator('svg').click();
-  await page.getByText('Base64').click();
+  await page.getByRole('option').getByText('Base64').click();
   await page.getByRole('button', { name: 'Recode Text' }).click();
   await expect(page.locator('textarea[name="outtext"]')).toHaveValue('RGllcyBpc3QgZWluIGJlaXNwaWVsaGFmdGVyIHNjaMO2bmVyIFRlc3R0ZXh0Lg==');
   await page.locator('#nx-dropdown-rendered-2').click();
