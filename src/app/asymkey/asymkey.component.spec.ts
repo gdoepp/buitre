@@ -5,12 +5,12 @@ import { CommonModule } from '@angular/common';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NxExpertModule } from '@aposin/ng-aquila/config';
-import { NxDropdownModule } from '@aposin/ng-aquila/dropdown';
-import { NxFormfieldModule } from '@aposin/ng-aquila/formfield';
-import { NxGridModule } from '@aposin/ng-aquila/grid';
-import { NxRadioModule } from '@aposin/ng-aquila/radio-button';
-import { NxTabsModule } from '@aposin/ng-aquila/tabs';
+import { NxExpertModule } from '@allianz/ng-aquila/config';
+import { NxDropdownModule } from '@allianz/ng-aquila/dropdown';
+import { NxFormfieldModule } from '@allianz/ng-aquila/formfield';
+import { NxGridModule } from '@allianz/ng-aquila/grid';
+import { NxRadioModule } from '@allianz/ng-aquila/radio-button';
+import { NxTabsModule } from '@allianz/ng-aquila/tabs';
 
 describe('AsymkeyComponent', () => {
   let component: AsymkeyComponent;

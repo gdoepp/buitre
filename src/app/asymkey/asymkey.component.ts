@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 import { SignAlg } from '../../kryptutil-api-out/model/signAlg';
-import { randomString } from '@aposin/ng-aquila/utils';
+import { randomString } from '@allianz/ng-aquila/utils';
 
 @Component({
     selector: 'asymkey',
